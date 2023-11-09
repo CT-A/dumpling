@@ -1,0 +1,128 @@
+[gd_scene load_steps=14 format=3 uid="uid://d04aqrpeh2o5q"]
+
+[ext_resource type="Texture2D" uid="uid://bjqspreqx2q2r" path="res://bullet-sheet.png" id="1_xgi4k"]
+[ext_resource type="Script" path="res://Bullet.gd" id="2_tavaa"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vr6mq"]
+radius = 2.0
+
+[sub_resource type="Animation" id="Animation_emodm"]
+resource_name = "explode"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape2D/Bullet:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"animationEnded"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_40oj1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape2D/Bullet:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_lf72g"]
+resource_name = "idle"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape2D/Bullet:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0aqb8"]
+_data = {
+"RESET": SubResource("Animation_40oj1"),
+"explode": SubResource("Animation_emodm"),
+"idle": SubResource("Animation_lf72g")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ueywy"]
+animation = &"explode"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rhg6m"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_1ft3f"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7tqpb"]
+advance_mode = 2
+advance_condition = &"bullet_hit"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_p54nv"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_bmw02"]
+states/explode/node = SubResource("AnimationNodeAnimation_ueywy")
+states/explode/position = Vector2(441, 100)
+states/idle/node = SubResource("AnimationNodeAnimation_rhg6m")
+states/idle/position = Vector2(314, 100)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_1ft3f"), "idle", "explode", SubResource("AnimationNodeStateMachineTransition_7tqpb"), "explode", "End", SubResource("AnimationNodeStateMachineTransition_p54nv")]
+
+[node name="RigidBody2D" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 2
+gravity_scale = 0.0
+continuous_cd = 1
+max_contacts_reported = 1
+contact_monitor = true
+script = ExtResource("2_tavaa")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_vr6mq")
+
+[node name="Bullet" type="Sprite2D" parent="CollisionShape2D"]
+texture = ExtResource("1_xgi4k")
+offset = Vector2(-1, 0)
+hframes = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_0aqb8")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_bmw02")
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/conditions/bullet_hit = false

@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwxfesjdhou0m"]
+
+[ext_resource type="Texture2D" uid="uid://cc4in0lu4rarj" path="res://pistol.png" id="1_nv54r"]
+
+[node name="Pistol" type="Sprite2D"]
+texture = ExtResource("1_nv54r")
+centered = false
+
+[node name="BulletSpawnLoc" type="Node2D" parent="."]
+position = Vector2(23, -1)
