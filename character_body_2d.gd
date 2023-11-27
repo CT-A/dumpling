@@ -36,12 +36,12 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 const SPEED = 110.0
 const JUMP_VELOCITY = -250.0
 const force = 2000
-const MAX_HP = 3
+const MAX_HP = 10
 
 # Keep track of current recoil
 var recoil = Vector2(0,0)
 
-var HP = 3
+var HP = 10
 var movespeed = SPEED
 var coyoteFrame = 0
 
@@ -145,12 +145,14 @@ func swapGun(newGun):
 		if active_gun != null:
 			was_shooting = active_gun.shooting
 			active_gun.shooting = false
-			active_gun.visible = false
+			# Tell Gun to get rid of reload bar and hide itself
+			active_gun.hide_self()
 			active_gun.gun_shoot.disconnect(requestBullet)
 			active_gun.gun_recoil.disconnect(update_recoil)
 		active_gun = newGun
 		active_gun.shooting = was_shooting
-		active_gun.visible = true
+		# Bring back the gun and reload bar
+		active_gun.unhide_self()
 		active_gun.gun_recoil.connect(update_recoil)
 		active_gun.gun_shoot.connect(requestBullet)
 

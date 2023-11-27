@@ -91,25 +91,41 @@ func snap(val, step):
 	return round(val/step)*step
 
 func level_up():
-	lvl = min(MAX_LVL,lvl+1)
-	xp = 0
-	damage += 1
-	bullet_size += 1
-	recoil += recoil_scaling
+	if (lvl<MAX_LVL):
+		lvl = lvl + 1
+		damage += 1
+		bullet_size += 1
+		recoil += recoil_scaling
+		if (lvl<MAX_LVL):
+			xp = 0
+		else:
+			xp = get_xp_to_advance()
+	
+func hide_self():
+	cd_bar.active = false
+	$Area2D/Sprite2D.self_modulate.a = 0
+
+func unhide_self():
+	cd_bar.active = true
+	$Area2D/Sprite2D.self_modulate.a = 1
+
+func get_xp_to_advance():
+	return (MAX_XP*lvl)
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	
 	# XP and Level up stuff:
 	# If xp exceeds xp required for level up, lvl goes up (unless it is max level already, which
 	# probably shouldn't happen anyway, since xp won't be collected if max level.)
-	if xp >= MAX_XP*lvl:
+	if xp >= get_xp_to_advance():
 		level_up()
 	
 	# Shooting stuff:
 	# Decrement cd and display it
 	var gun_offset = Vector2(18,-6*$Area2D/Sprite2D.scale.y).rotated(rotation)
 	cd_bar.scale.x = remap(cooldown,0,max_cd,0,-10)
-	cd_bar.position = global_position + gun_offset
+	cd_bar.global_position = global_position + gun_offset
 	cd_bar.rotation = rotation
 	cooldown = max(0,cooldown-delta)
 	

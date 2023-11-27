@@ -25,22 +25,28 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	
+	# Update HP bar to reflect HP
+	hp_bar.value = player.HP * 100/player.MAX_HP
+	# Update XP bar to reflect XP
 	# Set Gun Lvl Text to reflect the level of the active gun
 	if(player.active_gun != null):
+		# Set XP level to match gun xp
+		xp.value = (player.active_gun.xp)*100/player.active_gun.get_xp_to_advance()
 		# Gun XP bar style is set to the xp_style
 		xp.add_theme_stylebox_override("fill",xp_style)
 		lvl_text.text = "GUN LVL."+str(player.active_gun.lvl)
 		# Change xp bar if max level to indicate no further xp will be collected
 		if (player.active_gun.lvl == player.active_gun.MAX_LVL):
 			lvl_text.text = "GUN LVL.MAX"
-			xp_style.bg_color = Color.DARK_GOLDENROD
+			xp_style.bg_color = Color.CHOCOLATE
 		else:
 			# Gun isn't max lvl, so make sure the style reflects that
 			xp_style.bg_color = Color.GOLDENROD
 	else:
 		# No gun, no text
 		lvl_text.text = ""
-
+		# Update XP bar to reflect no gun
+		xp.value = 0
 	# Set the textures of the primary and secondary guns in UI. No gun, use default texture and make it invisible
 	if (player.active_gun == null):
 		current_gun.texture = default_texture
