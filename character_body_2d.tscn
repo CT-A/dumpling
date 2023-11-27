@@ -2,8 +2,6 @@
 
 [ext_resource type="Script" path="res://character_body_2d.gd" id="1_yvrhg"]
 [ext_resource type="Texture2D" uid="uid://d18t50tg0i3uw" path="res://bean_spriteSheet_cookieColor.png" id="2_yindj"]
-[ext_resource type="PackedScene" uid="uid://cwxfesjdhou0m" path="res://gun.tscn" id="3_f0qfj"]
-[ext_resource type="Script" path="res://gun.gd" id="4_u4g2c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_foqya"]
 size = Vector2(8, 8)
@@ -45,6 +43,22 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_qft2u"]
+resource_name = "hurting"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [7]
 }
 
 [sub_resource type="Animation" id="Animation_6w0ll"]
@@ -293,22 +307,6 @@ tracks/2/keys = {
 "values": [Vector2(0, -12)]
 }
 
-[sub_resource type="Animation" id="Animation_qft2u"]
-resource_name = "hurting"
-length = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [7]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dswbf"]
 _data = {
 "RESET": SubResource("Animation_h5gpw"),
@@ -333,6 +331,12 @@ animation = &"run_left"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_uq6rl"]
 animation = &"run_right"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gtmlr"]
+animation = &"run_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rqd1u"]
+animation = &"run_right"
+
 [sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_yjfca"]
 blend_point_0/node = SubResource("AnimationNodeAnimation_0drxl")
 blend_point_0/pos = Vector2(-1, 0)
@@ -342,6 +346,10 @@ blend_point_2/node = SubResource("AnimationNodeAnimation_tbho7")
 blend_point_2/pos = Vector2(-1, 1)
 blend_point_3/node = SubResource("AnimationNodeAnimation_uq6rl")
 blend_point_3/pos = Vector2(1, 1)
+blend_point_4/node = SubResource("AnimationNodeAnimation_gtmlr")
+blend_point_4/pos = Vector2(-1, -1)
+blend_point_5/node = SubResource("AnimationNodeAnimation_rqd1u")
+blend_point_5/pos = Vector2(1, -0.9)
 blend_mode = 1
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_iqx1v"]
@@ -409,6 +417,8 @@ transitions = ["Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_
 graph_offset = Vector2(-3, -31)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
+top_level = true
+z_index = 3
 collision_mask = 3
 script = ExtResource("1_yvrhg")
 
@@ -434,10 +444,5 @@ anim_player = NodePath("../AnimationPlayer")
 parameters/conditions/hurt = false
 parameters/conditions/idle = true
 parameters/conditions/isMoving = false
-parameters/Idle/blend_position = Vector2(1, 0)
+parameters/Idle/blend_position = Vector2(-1, -0.700599)
 parameters/Walk/blend_position = 0
-
-[node name="Pistol" parent="." instance=ExtResource("3_f0qfj")]
-position = Vector2(5, -4)
-offset = Vector2(7, -8)
-script = ExtResource("4_u4g2c")

@@ -1,5 +1,7 @@
 extends RigidBody2D
 
+const margin = 100
+var damage = 1
 @onready var animTree = $AnimationTree
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -12,9 +14,8 @@ func _process(_delta):
 	# Get the viewport's dimensions
 	var screen_rect = get_viewport_rect()
 	# Check if the bullet is off-screen
-	if position.x < screen_rect.position.x or position.x > screen_rect.position.x + screen_rect.size.x or position.y < screen_rect.position.y or position.y > screen_rect.position.y + screen_rect.size.y:
+	if position.x < screen_rect.position.x or position.x > screen_rect.position.x + screen_rect.size.x + margin or position.y < screen_rect.position.y or position.y > screen_rect.position.y + screen_rect.size.y + margin:
 		# The bullet is off-screen
-		print("bullet off-screen, deleting")
 		queue_free()
 
 

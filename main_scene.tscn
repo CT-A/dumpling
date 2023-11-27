@@ -1,15 +1,187 @@
-[gd_scene load_steps=4 format=3 uid="uid://cp1b2qbreo70l"]
+[gd_scene load_steps=19 format=3 uid="uid://cp1b2qbreo70l"]
 
 [ext_resource type="PackedScene" uid="uid://2cr400nuslu6" path="res://level_1.tscn" id="1_7ttnd"]
 [ext_resource type="Script" path="res://BulletController.gd" id="1_varq8"]
 [ext_resource type="PackedScene" uid="uid://c4p8q1lt6aqwf" path="res://character_body_2d.tscn" id="3_wul7s"]
+[ext_resource type="Script" path="res://DropManager.gd" id="4_vjb34"]
+[ext_resource type="Script" path="res://HUD_Manager.gd" id="5_p5r31"]
+[ext_resource type="Texture2D" uid="uid://cc4in0lu4rarj" path="res://pistol.png" id="5_ywllf"]
+[ext_resource type="FontFile" uid="uid://cw5fvpijsuxh5" path="res://TeenyTinyPixls-o2zo.ttf" id="6_q6u6u"]
+[ext_resource type="Texture2D" uid="uid://bdgc6out3wvfa" path="res://swap_arrow.png" id="8_omnuc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1pvjd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uu6l3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1vqk5"]
+bg_color = Color(0.27451, 0.27451, 0.27451, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_byewg"]
+bg_color = Color(0.941176, 0, 0.196078, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0.8, 0.8, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_q675d"]
+font = ExtResource("6_q6u6u")
+font_size = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ot1dm"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_22w5c"]
+
+[sub_resource type="Theme" id="Theme_b8dfb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vb6xf"]
+bg_color = Color(0.784314, 0.588235, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0.8, 0.8, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ot7e5"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
 
 [node name="MainScene" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("3_wul7s")]
+position = Vector2(128, 192)
 
 [node name="BulletController" type="Node2D" parent="."]
 script = ExtResource("1_varq8")
 
-[node name="Player" parent="BulletController" instance=ExtResource("3_wul7s")]
-position = Vector2(128, 192)
-
 [node name="Level1" parent="." instance=ExtResource("1_7ttnd")]
+
+[node name="DropManager" type="Node2D" parent="."]
+script = ExtResource("4_vjb34")
+
+[node name="HUD" type="Panel" parent="."]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 86.0
+offset_bottom = 52.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_1pvjd")
+script = ExtResource("5_p5r31")
+
+[node name="HP_Box" type="Panel" parent="HUD"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.988095
+anchor_bottom = 0.2
+offset_right = 2.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_uu6l3")
+metadata/_edit_use_anchors_ = true
+
+[node name="HP_Bar" type="ProgressBar" parent="HUD/HP_Box"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 83.0
+offset_bottom = 8.0
+theme_override_styles/background = SubResource("StyleBoxFlat_1vqk5")
+theme_override_styles/fill = SubResource("StyleBoxFlat_byewg")
+value = 50.0
+show_percentage = false
+
+[node name="HP_Text" type="Label" parent="HUD/HP_Box"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 15.0
+offset_bottom = 11.0
+text = "HP:"
+label_settings = SubResource("LabelSettings_q675d")
+
+[node name="Gun_Box" type="Panel" parent="HUD"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.16
+anchor_right = 1.0
+anchor_bottom = 0.76
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ot1dm")
+metadata/_edit_use_anchors_ = true
+
+[node name="Current_Gun" type="TextureRect" parent="HUD/Gun_Box"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0235294
+anchor_top = 0.3
+anchor_right = 0.258824
+anchor_bottom = 0.966666
+texture = SubResource("ImageTexture_22w5c")
+expand_mode = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="Secondary_Gun" type="TextureRect" parent="HUD/Gun_Box"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.270588
+anchor_top = 0.3
+anchor_right = 0.388235
+anchor_bottom = 0.633333
+texture = ExtResource("5_ywllf")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Swap_Arrow" type="TextureRect" parent="HUD/Gun_Box"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.270588
+anchor_top = 0.666667
+anchor_right = 0.388235
+anchor_bottom = 1.0
+texture = ExtResource("8_omnuc")
+metadata/_edit_use_anchors_ = true
+
+[node name="XP" type="ProgressBar" parent="HUD/Gun_Box"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 83.0
+offset_bottom = 8.0
+theme = SubResource("Theme_b8dfb")
+theme_override_styles/background = SubResource("StyleBoxFlat_1vqk5")
+theme_override_styles/fill = SubResource("StyleBoxFlat_vb6xf")
+value = 50.0
+show_percentage = false
+
+[node name="LVL" type="Label" parent="HUD/Gun_Box"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 23.0
+offset_bottom = 11.0
+text = "LVL.1"
+label_settings = SubResource("LabelSettings_q675d")
+
+[node name="Current_Gun_Outline" type="Panel" parent="HUD/Gun_Box"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 8.0
+offset_right = 23.0
+offset_bottom = 30.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ot7e5")
+
+[node name="Secondary_Gun_Outline2" type="Panel" parent="HUD/Gun_Box"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 8.0
+offset_right = 34.0
+offset_bottom = 20.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ot7e5")

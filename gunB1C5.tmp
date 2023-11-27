@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://ctwbjq1rowume"]
+
+[ext_resource type="Script" path="res://gun_pickup.gd" id="1_erj7m"]
+[ext_resource type="Shader" path="res://interactable.gdshader" id="2_3inah"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sx8dt"]
+resource_local_to_scene = true
+shader = ExtResource("2_3inah")
+shader_parameter/color = Color(1, 1, 1, 0.5)
+shader_parameter/width = 1.0
+shader_parameter/pattern = 0
+shader_parameter/inside = false
+shader_parameter/add_margins = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fx2uw"]
+size = Vector2(16, 14)
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_erj7m")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+z_as_relative = false
+material = SubResource("ShaderMaterial_sx8dt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_fx2uw")

@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://2cr400nuslu6"]
+[gd_scene load_steps=3 format=3 uid="uid://2cr400nuslu6"]
 
 [ext_resource type="PackedScene" uid="uid://f5ramw81ecs2" path="res://platform.tscn" id="1_npd33"]
+[ext_resource type="PackedScene" uid="uid://ctwbjq1rowume" path="res://gun_pickup.tscn" id="2_akpiv"]
 
 [node name="Level1" type="Node2D"]
+z_index = 2
 
 [node name="Ground" type="StaticBody2D" parent="."]
 position = Vector2(0, 520)
@@ -24,3 +26,15 @@ position = Vector2(288, 160)
 
 [node name="Platform3" parent="." instance=ExtResource("1_npd33")]
 position = Vector2(144, 136)
+
+[node name="Gun_Pickup" parent="." instance=ExtResource("2_akpiv")]
+position = Vector2(192, 128)
+
+[node name="Gun_Pickup2" parent="." instance=ExtResource("2_akpiv")]
+z_as_relative = false
+position = Vector2(200.72, 128)
+gun_path = "res://revolver.tscn"
+default_rarity = 1
+
+[node name="Gun_Pickup3" parent="." instance=ExtResource("2_akpiv")]
+position = Vector2(224, 128)

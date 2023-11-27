@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmn37j8pjrvk0"]
+
+[ext_resource type="Script" path="res://bar.gd" id="1_0afv6"]
+
+[node name="Bar" type="Node2D"]
+top_level = true
+z_index = 5
+z_as_relative = false
+script = ExtResource("1_0afv6")
