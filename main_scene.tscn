@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cp1b2qbreo70l"]
+[gd_scene load_steps=20 format=3 uid="uid://cp1b2qbreo70l"]
 
 [ext_resource type="PackedScene" uid="uid://2cr400nuslu6" path="res://level_1.tscn" id="1_7ttnd"]
 [ext_resource type="Script" path="res://BulletController.gd" id="1_varq8"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cc4in0lu4rarj" path="res://pistol.png" id="5_ywllf"]
 [ext_resource type="FontFile" uid="uid://cw5fvpijsuxh5" path="res://TeenyTinyPixls-o2zo.ttf" id="6_q6u6u"]
 [ext_resource type="Texture2D" uid="uid://bdgc6out3wvfa" path="res://swap_arrow.png" id="8_omnuc"]
+[ext_resource type="Script" path="res://PauseManager.gd" id="9_xpsjq"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1pvjd"]
 
@@ -185,3 +186,61 @@ offset_top = 8.0
 offset_right = 34.0
 offset_bottom = 20.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_ot7e5")
+
+[node name="PauseManager" type="Control" parent="." node_paths=PackedStringArray("menu", "died_screen", "return_to_main_button", "resume_button", "player")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 384.0
+offset_bottom = 216.0
+script = ExtResource("9_xpsjq")
+menu = NodePath("PauseScreen")
+died_screen = NodePath("Died_Screen")
+return_to_main_button = NodePath("Died_Screen/Return_To_Menu")
+resume_button = NodePath("PauseScreen/Unpause")
+player = NodePath("../Player")
+
+[node name="PauseScreen" type="Panel" parent="PauseManager"]
+z_index = 4
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 216.0
+
+[node name="Unpause" type="Button" parent="PauseManager/PauseScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -10.0
+offset_right = 40.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("6_q6u6u")
+theme_override_font_sizes/font_size = 10
+text = "RESUME"
+
+[node name="Died_Screen" type="Panel" parent="PauseManager"]
+z_index = 4
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 216.0
+
+[node name="Return_To_Menu" type="Button" parent="PauseManager/Died_Screen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -10.0
+offset_right = 40.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("6_q6u6u")
+theme_override_font_sizes/font_size = 10
+text = "RIP U BOZO LMAO"

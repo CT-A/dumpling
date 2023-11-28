@@ -8,6 +8,7 @@ var max_guns = 2
 
 signal player_shoot(bullet)
 signal dropped_gun(pos)
+signal die()
 
 func _ready():
 	animationTree.active = true
@@ -157,7 +158,6 @@ func swapGun(newGun):
 		active_gun.gun_shoot.connect(requestBullet)
 
 func _physics_process(delta):
-	
 	# Track active interactables
 	if !overlapping_interactables.is_empty():
 		select_interactable()
@@ -166,12 +166,7 @@ func _physics_process(delta):
 		if selected_interactable:
 			if is_instance_valid(selected_interactable):
 				selected_interactable.interact()
-	
-	# Test damage button
-	if Input.is_action_just_pressed("ui_cancel"):
-		hurt(1)
-		active_gun.xp += 1
-	
+
 	# Tell gun to shoot if shooting
 	if Input.is_action_just_pressed("cc_shoot"):
 		if active_gun != null:
@@ -195,6 +190,7 @@ func _physics_process(delta):
 	
 	# Check if walking
 	if Input.is_action_pressed("cc_shift") and is_on_floor():
+		hurt(10)
 		movespeed = SPEED/2
 	else:
 		movespeed = SPEED
@@ -230,3 +226,5 @@ func _physics_process(delta):
 		coyoteFrame = .05
 	else:
 		coyoteFrame = max(0,coyoteFrame-delta)
+	if HP <= 0:
+		die.emit()
