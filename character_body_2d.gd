@@ -49,6 +49,51 @@ var coyoteFrame = 0
 var overlapping_interactables = []
 var selected_interactable = null
 
+# Return an array of guns' saves
+func get_guns_saves():
+	var guns_saves = []
+	for g in guns:
+		if g:
+			if g != active_gun:
+				guns_saves.append(g.get_save())
+	return guns_saves
+
+# Make the relevent information into a savable format and return it
+func get_save():
+	var save = {
+		"pos_x" : position.x,
+		"pos_y" : position.y,
+		"rec_x" : recoil.x,
+		"rec_y" : recoil.y,
+		"hp" : HP,
+		"gun_list" : get_guns_saves(),
+		"gun" : active_gun.get_save() if active_gun else null,
+		"coyote_frame" : coyoteFrame,
+	}
+	return save
+	
+# Take a save and load it
+func load_save(save):
+	position.x = save.pos_x
+	position.y = save.pos_y
+	recoil.x = save.rec_x
+	recoil.y = save.rec_y
+	HP = save.hp
+	coyoteFrame = save.coyote_frame
+	load_guns(save.gun_list)
+	var new_active_gun = load(save.gun["path"]).instantiate() if save.gun else null
+	await pickup_gun(new_active_gun)
+	new_active_gun.load_save(save.gun)
+
+# Fill the gun list with new guns matching the saved guns
+func load_guns(gl):
+	guns = []
+	for g in gl:
+		if g:
+			var new_gun = load(g["path"]).instantiate()
+			await pickup_gun(new_gun)
+			new_gun.load_save(g)
+
 # Return texture of active gun
 func get_gun_texture():
 	return active_gun.get_node("Area2D/Sprite2D").texture
@@ -190,7 +235,8 @@ func _physics_process(delta):
 	
 	# Check if walking
 	if Input.is_action_pressed("cc_shift") and is_on_floor():
-		hurt(10)
+		hurt(1)
+		active_gun.xp += 4
 		movespeed = SPEED/2
 	else:
 		movespeed = SPEED

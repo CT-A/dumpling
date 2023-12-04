@@ -2,6 +2,7 @@ extends Gun
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	_path = "res://revolver.tscn"
 	auto = false
 	damage = 2
 	max_cd = .5

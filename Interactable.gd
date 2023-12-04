@@ -7,7 +7,7 @@ extends Node2D
 class_name Interactable
 
 @export var default_rarity = 0
-@onready var player = get_node("../../Player")
+@onready var player = get_tree().root.get_node("GameManager/MainScene/Player")
 @onready var sprite = get_node("Area2D/Sprite2D")
 var color = Color.WHITE
 # Called when the node enters the scene tree for the first time.

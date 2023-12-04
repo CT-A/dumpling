@@ -7,14 +7,58 @@
 z_index = 2
 
 [node name="Ground" type="StaticBody2D" parent="."]
-position = Vector2(0, 520)
+position = Vector2(0, 192)
 collision_layer = 2
 collision_mask = 7
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ground"]
+position = Vector2(0, 328)
 polygon = PackedVector2Array(0, -328, 384, -328, 384, -304, 0, -304)
 
 [node name="Polygon2D" type="Polygon2D" parent="Ground/CollisionPolygon2D"]
+position = Vector2(0, -328)
+polygon = PackedVector2Array(0, 0, 384, 0, 384, 24, 0, 24)
+
+[node name="Ceiling" type="StaticBody2D" parent="."]
+position = Vector2(0, -24)
+collision_layer = 2
+collision_mask = 7
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ceiling"]
+position = Vector2(0, 328)
+polygon = PackedVector2Array(0, -328, 384, -328, 384, -304, 0, -304)
+
+[node name="Polygon2D" type="Polygon2D" parent="Ceiling/CollisionPolygon2D"]
+position = Vector2(0, -328)
+polygon = PackedVector2Array(0, 0, 384, 0, 384, 24, 0, 24)
+
+[node name="LeftWall" type="StaticBody2D" parent="."]
+position = Vector2(0, -24)
+rotation = 1.5708
+scale = Vector2(0.625, 1)
+collision_layer = 2
+collision_mask = 7
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LeftWall"]
+position = Vector2(0, 328)
+polygon = PackedVector2Array(0, -328, 384, -328, 384, -304, 0, -304)
+
+[node name="Polygon2D" type="Polygon2D" parent="LeftWall/CollisionPolygon2D"]
+position = Vector2(0, -328)
+polygon = PackedVector2Array(0, 0, 384, 0, 384, 24, 0, 24)
+
+[node name="RightWall" type="StaticBody2D" parent="."]
+position = Vector2(408, -24)
+rotation = 1.5708
+scale = Vector2(0.625, 1)
+collision_layer = 2
+collision_mask = 7
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="RightWall"]
+position = Vector2(0, 328)
+polygon = PackedVector2Array(0, -328, 384, -328, 384, -304, 0, -304)
+
+[node name="Polygon2D" type="Polygon2D" parent="RightWall/CollisionPolygon2D"]
 position = Vector2(0, -328)
 polygon = PackedVector2Array(0, 0, 384, 0, 384, 24, 0, 24)
 

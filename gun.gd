@@ -6,12 +6,13 @@ signal gun_shoot(bullet)
 signal gun_recoil(amount)
 
 var controller = true
+var _path = "res://gun.tscn"
 
-const cd_bar_path = preload("res://bar.tscn")
+const cd_bar_path = "res://bar.tscn"
 const MAX_LVL = 3
 const MAX_XP = 10
 
-var cd_bar = cd_bar_path.instantiate()
+var cd_bar = load(cd_bar_path).instantiate()
 var offset = Vector2(5,-4)
 var BULLET_SPEED = 500
 var auto = true
@@ -30,18 +31,55 @@ var direction = Vector2(1,0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	print("entered gun ready")
 	# Move to correct offset
 	position = offset
+	
+	# Make sure cd_bar is initialized correctly
+	reset_cd_bar()
+	
 	# Set cooldown bar color to indicate if auto fire capable
 	if !auto:
 		cd_bar.color = Color.DARK_GRAY
-	add_child(cd_bar)
+
 	# initialize flipped to be accurate
 	if abs(rotation) > PI/2:
 		# When abs(rotation) is greater than pi/2, the gun is pointing left and the sprite should be flipped
 		flipped = true
 	else:
 		flipped = false
+
+# This is probably unneccessary unless I want to be able to do Gun.new(save)
+func _init(save = null):
+	if save:
+		load_save(save)
+
+func reset_cd_bar():
+	cd_bar.queue_free()
+	cd_bar = load(cd_bar_path).instantiate()
+	add_child(cd_bar)
+
+func get_save():
+	var save = {
+		"path" : _path,
+		"dmg" : damage,
+		"rec" : recoil,
+		"cd" : cooldown,
+		"exp" : xp,
+		"level" : lvl,
+		"bul_size" : bullet_size,
+	}
+	return save
+
+func load_save(s):
+	print(s)
+	_path = s.get("path")
+	damage = s.get("dmg")
+	recoil = s.get("rec")
+	cooldown = s.get("cd")
+	xp = s.get("exp")
+	lvl = s.get("level")
+	bullet_size = s.get("bul_size")
 
 # Tell Player to recoil by this amount
 func request_recoil(amt):
@@ -124,8 +162,8 @@ func _physics_process(delta):
 	# Shooting stuff:
 	# Decrement cd and display it
 	var gun_offset = Vector2(18,-6*$Area2D/Sprite2D.scale.y).rotated(rotation)
-	cd_bar.scale.x = remap(cooldown,0,max_cd,0,-10)
-	cd_bar.global_position = global_position + gun_offset
+	cd_bar.length = remap(cooldown,0,max_cd,0,-10)
+	cd_bar.position = global_position+gun_offset
 	cd_bar.rotation = rotation
 	cooldown = max(0,cooldown-delta)
 	
