@@ -31,7 +31,6 @@ var direction = Vector2(1,0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print("entered gun ready")
 	# Move to correct offset
 	position = offset
 	
@@ -72,7 +71,6 @@ func get_save():
 	return save
 
 func load_save(s):
-	print(s)
 	_path = s.get("path")
 	damage = s.get("dmg")
 	recoil = s.get("rec")

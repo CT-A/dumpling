@@ -7,7 +7,17 @@ var damage = 1
 func _ready():
 	self.body_entered.connect(_on_bullet_hit)
 
-
+func get_save():
+	var save = {
+		"pos_x" : position.x,
+		"pos_y" : position.y,
+		"vel_x" : linear_velocity.x,
+		"vel_y" : linear_velocity.y,
+		"rot" : rotation,
+		"dmg" : damage,
+		"size" : $CollisionShape2D/Bullet.scale.x
+		}
+	return save
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	# Check if off-screen. If so, delete.

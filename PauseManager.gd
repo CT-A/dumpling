@@ -52,10 +52,12 @@ func _return_to_main():
 func _save_game():
 	# Open the save file
 	var game_save = FileAccess.open("user://save.save", FileAccess.WRITE)
-	# Construct a dict of node names and their data
-	var save_dict = {}
 	var save_nodes = get_tree().get_nodes_in_group("saveable")
 	for n in save_nodes:
+		# Construct a dict of node name and its data
+		# This is in the loop because each node is separated by line,
+		#  and each has it's own dictionary
+		var save_dict = {}
 		# Make sure the node can actually be saved
 		if !n.has_method("get_save"):
 			print("node ",n," is not saveable!")

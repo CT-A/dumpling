@@ -35,8 +35,8 @@ func _continue_game():
 		# Saved nodes will all be saveable, so we can start from there.
 		var saveable_nodes = get_tree().get_nodes_in_group("saveable")
 		# The node data should be a dict with only one entry
-		if node_data.size() > 1:
-			print("data is weird shape")
+		#if node_data.size() > 1:
+		#	print(node_data, " data is weird shape: ", node_data.size(), )
 		var node_name = node_data.keys()[0]
 		var node_save = node_data.values()[0]
 		#print("LOADING ",node_name," : ", node_save)
