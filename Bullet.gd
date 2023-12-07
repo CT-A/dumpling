@@ -1,6 +1,9 @@
 extends RigidBody2D
 
 const margin = 100
+const knock_per_dmg = 3000
+const knock_delay = 0.1
+var pre_collision_vel = Vector2(0,0)
 var damage = 1
 @onready var animTree = $AnimationTree
 # Called when the node enters the scene tree for the first time.
@@ -28,6 +31,9 @@ func _process(_delta):
 		# The bullet is off-screen
 		queue_free()
 
+# Make sure we know the true velocity before hitting something
+func _physics_process(_delta):
+	pre_collision_vel = linear_velocity
 
 # call this at end of animation
 func animationEnded():
@@ -36,7 +42,16 @@ func animationEnded():
 # detect collisions
 func _on_bullet_hit(_objectHit):
 	# If it hit an enemy (4) or enemy bullet (5) trigger onhits if applicable?
-	# print(_objectHit.collision_layer)
+	# collision layer is in powers of 2 apparently
+	if _objectHit.collision_layer == 8:
+		if _objectHit.has_method("knock_after_delay"):
+			var amt = knock_per_dmg*damage
+			print(pre_collision_vel)
+			var dir_to_target = Vector2(pre_collision_vel.x,pre_collision_vel.y -100)
+			var knockback_dir = dir_to_target.normalized()*amt
+			_objectHit.knock_after_delay(knockback_dir,damage*knock_delay)
+		else:
+			print("Object on layer 4 missing knock_after_delay()!")
 	self.set_deferred("freeze", true)
 
 	animTree["parameters/conditions/bullet_hit"] = true

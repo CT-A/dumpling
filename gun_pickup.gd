@@ -7,6 +7,16 @@ func _ready():
 	
 	super()
 
+# Return a dict of important info
+func get_save():
+	var save = {
+		"pos_x" : position.x,
+		"pos_y" : position.y,
+		"gunpath" : gun_path,
+		"rar" : default_rarity
+	}
+	return save
+
 # Load in a new gun from the specified path
 func _update_gun(new_path):
 	gun_path = new_path

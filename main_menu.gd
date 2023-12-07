@@ -35,14 +35,17 @@ func _continue_game():
 		# Saved nodes will all be saveable, so we can start from there.
 		var saveable_nodes = get_tree().get_nodes_in_group("saveable")
 		# The node data should be a dict with only one entry
-		#if node_data.size() > 1:
-		#	print(node_data, " data is weird shape: ", node_data.size(), )
+		if node_data.size() > 1:
+			print(node_data, " data is weird shape: ", node_data.size(), )
 		var node_name = node_data.keys()[0]
 		var node_save = node_data.values()[0]
 		#print("LOADING ",node_name," : ", node_save)
 		var node = find_node_by_name(saveable_nodes, node_name)
 		if node:
-			node.load_save(node_save)
+			if !node.has_method("load_save"):
+				print("node ",node," is not loadable!")
+			else:
+				node.load_save(node_save)
 		else:
 			print("node not found: ", node)
 		

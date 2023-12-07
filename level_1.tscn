@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://2cr400nuslu6"]
+[gd_scene load_steps=4 format=3 uid="uid://2cr400nuslu6"]
 
 [ext_resource type="PackedScene" uid="uid://f5ramw81ecs2" path="res://platform.tscn" id="1_npd33"]
 [ext_resource type="PackedScene" uid="uid://ctwbjq1rowume" path="res://gun_pickup.tscn" id="2_akpiv"]
+[ext_resource type="PackedScene" uid="uid://dwfoovktlk7ub" path="res://ground_enemy.tscn" id="3_olerr"]
 
 [node name="Level1" type="Node2D"]
 z_index = 2
@@ -10,6 +11,7 @@ z_index = 2
 position = Vector2(0, 192)
 collision_layer = 2
 collision_mask = 7
+metadata/_edit_group_ = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ground"]
 position = Vector2(0, 328)
@@ -23,6 +25,7 @@ polygon = PackedVector2Array(0, 0, 384, 0, 384, 24, 0, 24)
 position = Vector2(0, -24)
 collision_layer = 2
 collision_mask = 7
+metadata/_edit_group_ = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ceiling"]
 position = Vector2(0, 328)
@@ -38,6 +41,7 @@ rotation = 1.5708
 scale = Vector2(0.625, 1)
 collision_layer = 2
 collision_mask = 7
+metadata/_edit_group_ = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LeftWall"]
 position = Vector2(0, 328)
@@ -53,6 +57,7 @@ rotation = 1.5708
 scale = Vector2(0.625, 1)
 collision_layer = 2
 collision_mask = 7
+metadata/_edit_group_ = true
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="RightWall"]
 position = Vector2(0, 328)
@@ -78,7 +83,9 @@ position = Vector2(192, 128)
 z_as_relative = false
 position = Vector2(200.72, 128)
 gun_path = "res://revolver.tscn"
-default_rarity = 1
 
 [node name="Gun_Pickup3" parent="." instance=ExtResource("2_akpiv")]
 position = Vector2(224, 128)
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("3_olerr")]
+position = Vector2(8, 160)

@@ -6,7 +6,7 @@ extends Node2D
 # 	the player can select between them using the cursor's position
 class_name Interactable
 
-@export var default_rarity = 0
+@onready var default_rarity = int(0)
 @onready var player = get_tree().root.get_node("GameManager/MainScene/Player")
 @onready var sprite = get_node("Area2D/Sprite2D")
 var color = Color.WHITE
@@ -19,7 +19,8 @@ func _ready():
 	$Area2D.body_entered.connect(_on_body_entered)
 	$Area2D.body_exited.connect(_on_body_exited)
 
-# Set color based on rarity
+# Set color based on rarity (MAKE SURE YOU PASS AN INT)
+#  If a gun is pink, that's an unknown rarity (error)
 func set_rarity(r):
 	match r:
 		0:
@@ -34,7 +35,8 @@ func set_rarity(r):
 			color = Color.GOLDENROD
 		5:
 			color = Color.DARK_RED
-		
+		_:
+			color = Color.DEEP_PINK
 
 # If intered by the player, let it know
 func _on_body_entered(body):
