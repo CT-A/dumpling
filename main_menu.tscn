@@ -5,7 +5,7 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f5jda"]
 
-[node name="GameManager" type="Control"]
+[node name="GameManager" type="Control" groups=["saveable"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

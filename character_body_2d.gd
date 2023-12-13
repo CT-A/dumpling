@@ -5,6 +5,7 @@ extends CharacterBody2D
 var controller = false
 var guns = []
 var max_guns = 2
+var tickets = 0
 
 signal player_shoot(bullet)
 signal dropped_gun(pos)
@@ -69,6 +70,7 @@ func get_save():
 		"gun_list" : get_guns_saves(),
 		"gun" : active_gun.get_save() if active_gun else null,
 		"coyote_frame" : coyoteFrame,
+		"tickets" : tickets
 	}
 	return save
 	
@@ -80,10 +82,12 @@ func load_save(save):
 	recoil.y = save.rec_y
 	HP = save.hp
 	coyoteFrame = save.coyote_frame
+	tickets = save.tickets
 	load_guns(save.gun_list)
 	var new_active_gun = load(save.gun["path"]).instantiate() if save.gun else null
-	await pickup_gun(new_active_gun)
-	new_active_gun.load_save(save.gun)
+	if new_active_gun:
+		await pickup_gun(new_active_gun)
+		new_active_gun.load_save(save.gun)
 
 # Fill the gun list with new guns matching the saved guns
 func load_guns(gl):
@@ -137,7 +141,7 @@ func select_interactable():
 		selected_interactable = null
 
 # Pick up gun
-func pickup_gun(g):
+func pickup_gun(g, xp = 0):
 	add_child(g)
 	guns.append(g)
 	if guns.size() > max_guns:
@@ -149,7 +153,7 @@ func drop(g):
 	guns.erase(g)
 	var dropPos = position + g.offset
 	dropPos.y = dropPos.y - 5
-	var dropInfo = [dropPos,g.scene_file_path,g.rarity]
+	var dropInfo = [dropPos,g.scene_file_path,g.rarity,g.xp,g.lvl]
 	dropped_gun.emit(dropInfo)
 
 # Utility function to do hitstop by slowing time temporarily
@@ -159,10 +163,11 @@ func frameFreeze(timeScale, duration):
 	Engine.time_scale = 1.0
 
 # When hurt, take damage and do hitstop (also display hurt animation)
-func hurt(damage):
+func hurt(damage, freeze = true):
 	HP -= damage
 	animationTree["parameters/conditions/hurt"] = true
-	await frameFreeze(0.1,0.4)
+	if freeze:
+		await frameFreeze(0.1,0.4)
 	animationTree["parameters/conditions/hurt"] = false
 
 # Recoil back by the specified amount
@@ -176,6 +181,11 @@ func collectXP(amt):
 	if active_gun != null:
 		if active_gun.lvl < active_gun.MAX_LVL:
 				active_gun.xp += amt
+				return true
+		else:
+			return false
+	else:
+		return false
 
 func get_secondary():
 	if (active_gun != null):

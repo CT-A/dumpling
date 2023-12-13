@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://ctwbjq1rowume"]
+[gd_scene load_steps=6 format=3 uid="uid://k2bvf1eegi5o"]
 
-[ext_resource type="Script" path="res://gun_pickup.gd" id="1_erj7m"]
+[ext_resource type="Script" path="res://ticket.gd" id="1_fyoso"]
+[ext_resource type="Texture2D" uid="uid://wmvv6dw8j04w" path="res://ticket.png" id="2_k5788"]
 
-[sub_resource type="Shader" id="Shader_in88g"]
+[sub_resource type="Shader" id="Shader_boh35"]
 code = "shader_type canvas_item;
 
 uniform vec4 color : source_color = vec4(1.0,1.0,1.0,0.5);
@@ -66,28 +67,32 @@ void fragment() {
 	}
 }"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sx8dt"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_18ybs"]
 resource_local_to_scene = true
-shader = SubResource("Shader_in88g")
+shader = SubResource("Shader_boh35")
 shader_parameter/color = Color(1, 1, 1, 0.5)
 shader_parameter/width = 1.0
 shader_parameter/pattern = 0
 shader_parameter/inside = false
 shader_parameter/add_margins = true
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fx2uw"]
-size = Vector2(16, 14)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a4odb"]
+size = Vector2(9, 12)
 
-[node name="Node2D" type="Node2D"]
-script = ExtResource("1_erj7m")
+[node name="ticket" type="Node2D"]
+script = ExtResource("1_fyoso")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 0
+collision_mask = 3
 
 [node name="Sprite2D" type="Sprite2D" parent="Area2D"]
-z_as_relative = false
-material = SubResource("ShaderMaterial_sx8dt")
+modulate = Color(2, 2, 1, 1)
+material = SubResource("ShaderMaterial_18ybs")
+texture = ExtResource("2_k5788")
+centered = false
+offset = Vector2(0, -12)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, 1)
-shape = SubResource("RectangleShape2D_fx2uw")
+position = Vector2(4.5, -6)
+shape = SubResource("RectangleShape2D_a4odb")

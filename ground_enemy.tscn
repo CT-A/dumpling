@@ -1,10 +1,29 @@
-[gd_scene load_steps=20 format=3 uid="uid://dwfoovktlk7ub"]
+[gd_scene load_steps=25 format=3 uid="uid://dwfoovktlk7ub"]
 
 [ext_resource type="Script" path="res://ground_enemy.gd" id="1_vu54q"]
 [ext_resource type="Texture2D" uid="uid://d18t50tg0i3uw" path="res://bean_spriteSheet_cookieColor.png" id="2_5m2vo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wfqvd"]
 radius = 4.0
+
+[sub_resource type="Shader" id="Shader_b3ixb"]
+code = "shader_type canvas_item;
+
+uniform vec4 flash_color : source_color = vec4(1.0);
+uniform float flash_mod : hint_range(0.0,1.0) = 0.0;
+
+void fragment() {
+	vec4 color = COLOR * texture(TEXTURE,UV);
+	color.rgb = mix(color.rgb, flash_color.rgb, flash_mod);
+	COLOR = color;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_83mj8"]
+resource_local_to_scene = true
+shader = SubResource("Shader_b3ixb")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_mod = 0.0
 
 [sub_resource type="Animation" id="Animation_h5gpw"]
 length = 0.001
@@ -343,19 +362,34 @@ blend_point_3/pos = 0.4
 snap = 0.01
 blend_mode = 1
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wcl5d"]
+animation = &"hurting"
+
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ebhbu"]
 advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ih77y"]
+advance_mode = 2
+advance_condition = &"stop_hurt"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6l7oj"]
+advance_mode = 2
+advance_condition = &"hurt"
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_gr8wx"]
 states/Start/position = Vector2(146, 95)
 states/alive/node = SubResource("AnimationNodeBlendSpace1D_r71jg")
 states/alive/position = Vector2(294, 95)
-transitions = ["Start", "alive", SubResource("AnimationNodeStateMachineTransition_ebhbu")]
+states/hurting/node = SubResource("AnimationNodeAnimation_wcl5d")
+states/hurting/position = Vector2(463, 16)
+transitions = ["Start", "alive", SubResource("AnimationNodeStateMachineTransition_ebhbu"), "hurting", "alive", SubResource("AnimationNodeStateMachineTransition_ih77y"), "alive", "hurting", SubResource("AnimationNodeStateMachineTransition_6l7oj")]
 graph_offset = Vector2(-3, -31)
 
 [node name="CharacterBody2D" type="RigidBody2D"]
 collision_layer = 8
 collision_mask = 3
+max_contacts_reported = 2
+contact_monitor = true
 lock_rotation = true
 script = ExtResource("1_vu54q")
 metadata/_edit_group_ = true
@@ -365,11 +399,11 @@ position = Vector2(5, -4)
 shape = SubResource("CircleShape2D_wfqvd")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0.615686, 0, 0, 1)
-position = Vector2(-2, -12)
+modulate = Color(0.788235, 0, 0, 1)
+material = SubResource("ShaderMaterial_83mj8")
+position = Vector2(0, -12)
 texture = ExtResource("2_5m2vo")
 centered = false
-flip_h = true
 hframes = 24
 vframes = 5
 
@@ -383,4 +417,6 @@ process_mode = 1
 tree_root = SubResource("AnimationNodeStateMachine_gr8wx")
 anim_player = NodePath("../AnimationPlayer")
 active = true
+parameters/conditions/hurt = false
+parameters/conditions/stop_hurt = false
 parameters/alive/blend_position = -0.231231

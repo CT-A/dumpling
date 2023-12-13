@@ -6,7 +6,7 @@ extends Node2D
 # 	the player can select between them using the cursor's position
 class_name Interactable
 
-@onready var default_rarity = int(0)
+var default_rarity = int(0)
 @onready var player = get_tree().root.get_node("GameManager/MainScene/Player")
 @onready var sprite = get_node("Area2D/Sprite2D")
 var color = Color.WHITE
@@ -32,7 +32,7 @@ func set_rarity(r):
 		3:
 			color = Color.PURPLE
 		4:
-			color = Color.GOLDENROD
+			color = Color.GOLD
 		5:
 			color = Color.DARK_RED
 		_:
@@ -40,12 +40,12 @@ func set_rarity(r):
 
 # If intered by the player, let it know
 func _on_body_entered(body):
-	if body is CharacterBody2D:
+	if body.collision_layer == 1:
 		player.entered_interactable(self)
 		
 # If exited by the player, let it know
 func _on_body_exited(body):
-	if body is CharacterBody2D:
+	if body.collision_layer == 1:
 		player.exited_interactable(self)
 
 # Convert color to vec4

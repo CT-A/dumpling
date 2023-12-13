@@ -10,7 +10,7 @@ var _path = "res://gun.tscn"
 
 const cd_bar_path = "res://bar.tscn"
 const MAX_LVL = 3
-const MAX_XP = 10
+const MAX_XP = 50
 
 var cd_bar = load(cd_bar_path).instantiate()
 var offset = Vector2(5,-4)

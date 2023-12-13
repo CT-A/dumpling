@@ -427,10 +427,9 @@ position = Vector2(5, -4)
 shape = SubResource("RectangleShape2D_foqya")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-2, -12)
+position = Vector2(0, -12)
 texture = ExtResource("2_yindj")
 centered = false
-flip_h = true
 hframes = 24
 vframes = 5
 

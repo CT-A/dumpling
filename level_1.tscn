@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://2cr400nuslu6"]
+[gd_scene load_steps=5 format=3 uid="uid://2cr400nuslu6"]
 
 [ext_resource type="PackedScene" uid="uid://f5ramw81ecs2" path="res://platform.tscn" id="1_npd33"]
 [ext_resource type="PackedScene" uid="uid://ctwbjq1rowume" path="res://gun_pickup.tscn" id="2_akpiv"]
 [ext_resource type="PackedScene" uid="uid://dwfoovktlk7ub" path="res://ground_enemy.tscn" id="3_olerr"]
+[ext_resource type="PackedScene" uid="uid://bhhgmnl5a6p67" path="res://xp.tscn" id="4_losis"]
 
 [node name="Level1" type="Node2D"]
 z_index = 2
@@ -39,7 +40,7 @@ polygon = PackedVector2Array(0, 0, 384, 0, 384, 24, 0, 24)
 position = Vector2(0, -24)
 rotation = 1.5708
 scale = Vector2(0.625, 1)
-collision_layer = 2
+collision_layer = 18
 collision_mask = 7
 metadata/_edit_group_ = true
 
@@ -55,7 +56,7 @@ polygon = PackedVector2Array(0, 0, 384, 0, 384, 24, 0, 24)
 position = Vector2(408, -24)
 rotation = 1.5708
 scale = Vector2(0.625, 1)
-collision_layer = 2
+collision_layer = 18
 collision_mask = 7
 metadata/_edit_group_ = true
 
@@ -89,3 +90,10 @@ position = Vector2(224, 128)
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("3_olerr")]
 position = Vector2(8, 160)
+
+[node name="CharacterBody2D2" parent="." instance=ExtResource("3_olerr")]
+position = Vector2(23.945, 160)
+
+[node name="XP" parent="." instance=ExtResource("4_losis")]
+position = Vector2(160, 112)
+max_contacts_reported = 2

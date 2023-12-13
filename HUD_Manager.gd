@@ -4,6 +4,7 @@ extends Panel
 @onready var secondary_gun = get_node("Gun_Box/Secondary_Gun")
 @onready var player = get_node("../Player")
 @onready var lvl_text = get_node("Gun_Box/LVL")
+@onready var tickets_text = get_node("Gun_Box/Ticket_Icon/Tickets")
 @onready var xp = get_node("Gun_Box/XP")
 var default_texture
 var xp_style = StyleBoxFlat.new()
@@ -21,10 +22,13 @@ func _ready():
 		lvl_text.text = "GUN LVL."+player.active_gun.lvl
 	else:
 		lvl_text.text = ""
+	tickets_text.text = "X"+str(player.tickets)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	
+	# Show number of tickets
+	tickets_text.text = "X"+str(player.tickets)
 	# Update HP bar to reflect HP
 	hp_bar.value = player.HP * 100/player.MAX_HP
 	# Update XP bar to reflect XP
