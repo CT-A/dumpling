@@ -10,6 +10,7 @@ var tickets = 0
 signal player_shoot(bullet)
 signal dropped_gun(pos)
 signal die()
+signal failed_check(check)
 
 func _ready():
 	animationTree.active = true
@@ -141,7 +142,7 @@ func select_interactable():
 		selected_interactable = null
 
 # Pick up gun
-func pickup_gun(g, xp = 0):
+func pickup_gun(g):
 	add_child(g)
 	guns.append(g)
 	if guns.size() > max_guns:

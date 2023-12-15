@@ -3,6 +3,7 @@ extends RigidBody2D
 signal die()
 signal hit_wall()
 
+const ENEMY_TYPE_PATH = "res://ground_enemy.tscn"
 const SPEED = 50.0
 const JUMP_VELOCITY = -250.0
 const JUMP_DELAY = 1.0
@@ -21,12 +22,38 @@ var behavior = "patrolling_right"
 var Max_HP = 5
 var HP = 0
 var can_jump = true
+var loaded = false
 
 func _ready():
-	HP = Max_HP
+	if !loaded:
+		HP = Max_HP
 	animationTree.active = true
 	self.body_entered.connect(_on_collide)
 	self.hit_wall.connect(_turn_around)
+
+# Return a dict of important info
+func get_save():
+	var save = {
+		"pos_x" : position.x,
+		"pos_y" : position.y,
+		"behavior" : behavior,
+		"health" : HP,
+		"hitstop" : hitstop,
+		"dir" : direction,
+		"can_jump" : can_jump,
+		"path" : ENEMY_TYPE_PATH
+	}
+	return save
+
+# Initialize vars to those from a save
+func load_save(s):
+	position.x = s["pos_x"]
+	position.y = s["pos_y"]
+	behavior = s["behavior"]
+	HP = s["health"]
+	hitstop = s["hitstop"]
+	direction = s["dir"]
+	can_jump = s["can_jump"]
 
 func _on_collide(object_hit):
 	# If we hit a wall
@@ -36,6 +63,7 @@ func _on_collide(object_hit):
 	if object_hit.collision_layer == 1:
 		player.hurt(1, false)
 
+# Figure out what to drop and drop it
 func _drop_stuff():
 	var rng = RandomNumberGenerator.new()
 	rng.seed = get_tree().root.get_node("GameManager").rand_seed + name.hash()

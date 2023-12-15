@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://2cr400nuslu6"]
+[gd_scene load_steps=6 format=3 uid="uid://2cr400nuslu6"]
 
 [ext_resource type="PackedScene" uid="uid://f5ramw81ecs2" path="res://platform.tscn" id="1_npd33"]
 [ext_resource type="PackedScene" uid="uid://ctwbjq1rowume" path="res://gun_pickup.tscn" id="2_akpiv"]
 [ext_resource type="PackedScene" uid="uid://dwfoovktlk7ub" path="res://ground_enemy.tscn" id="3_olerr"]
 [ext_resource type="PackedScene" uid="uid://bhhgmnl5a6p67" path="res://xp.tscn" id="4_losis"]
+[ext_resource type="PackedScene" uid="uid://j5rh8wmpxcnn" path="res://chest.tscn" id="5_w7awe"]
 
 [node name="Level1" type="Node2D"]
 z_index = 2
@@ -88,12 +89,17 @@ gun_path = "res://revolver.tscn"
 [node name="Gun_Pickup3" parent="." instance=ExtResource("2_akpiv")]
 position = Vector2(224, 128)
 
-[node name="CharacterBody2D" parent="." instance=ExtResource("3_olerr")]
+[node name="CharacterBody2D" parent="." groups=["reload_on_save"] instance=ExtResource("3_olerr")]
 position = Vector2(8, 160)
 
-[node name="CharacterBody2D2" parent="." instance=ExtResource("3_olerr")]
+[node name="CharacterBody2D2" parent="." groups=["reload_on_save"] instance=ExtResource("3_olerr")]
 position = Vector2(23.945, 160)
 
 [node name="XP" parent="." instance=ExtResource("4_losis")]
 position = Vector2(160, 112)
-max_contacts_reported = 2
+
+[node name="Start" type="Node2D" parent="."]
+position = Vector2(192, 184)
+
+[node name="Chest" parent="." instance=ExtResource("5_w7awe")]
+position = Vector2(304, 160)

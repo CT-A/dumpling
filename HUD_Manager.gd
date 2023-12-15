@@ -11,9 +11,11 @@ var xp_style = StyleBoxFlat.new()
 var default_xp_style = StyleBoxFlat.new()
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	# Connect to flash hud when player fails a check
+	player.failed_check.connect(_flash_hud)
 	# Set the xp bar style to the color from the editor
 	default_xp_style = xp.get_theme_stylebox("fill")
-	default_xp_style.bg_color = Color.GOLDENROD
+	default_xp_style.bg_color = Color.LIME_GREEN
 	xp_style = default_xp_style
 	# Set the default texture to whatever it is in the editor
 	default_texture = current_gun.texture
@@ -23,6 +25,17 @@ func _ready():
 	else:
 		lvl_text.text = ""
 	tickets_text.text = "X"+str(player.tickets)
+
+# Flash the HUD module relevent to the failed check (passed by player signal)
+func _flash_hud(module):
+	match module:
+		"tickets" : flash_tickets()
+
+# Flash the tickets number red to indicate no tickets
+func flash_tickets():
+	tickets_text.label_settings.font_color = Color.RED
+	await get_tree().create_timer(0.3).timeout
+	tickets_text.label_settings.font_color = Color.WHITE
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -42,10 +55,10 @@ func _process(_delta):
 		# Change xp bar if max level to indicate no further xp will be collected
 		if (player.active_gun.lvl == player.active_gun.MAX_LVL):
 			lvl_text.text = "GUN LVL.MAX"
-			xp_style.bg_color = Color.CHOCOLATE
+			xp_style.bg_color = Color.GOLDENROD
 		else:
 			# Gun isn't max lvl, so make sure the style reflects that
-			xp_style.bg_color = Color.GOLDENROD
+			xp_style.bg_color = Color.LIME_GREEN
 	else:
 		# No gun, no text
 		lvl_text.text = ""

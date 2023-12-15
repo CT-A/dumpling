@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://j5rh8wmpxcnn"]
+
+[ext_resource type="Texture2D" uid="uid://goj5cpf766l8" path="res://chest.png" id="1_4i3ud"]
+[ext_resource type="Script" path="res://chest.gd" id="1_yhr50"]
+[ext_resource type="Shader" path="res://interactable.gdshader" id="2_nk8pc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rh4i5"]
+size = Vector2(21, 9)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vjfts"]
+resource_local_to_scene = true
+shader = ExtResource("2_nk8pc")
+shader_parameter/color = Color(1, 1, 1, 0.5)
+shader_parameter/width = 1.0
+shader_parameter/pattern = 0
+shader_parameter/inside = false
+shader_parameter/add_margins = true
+
+[node name="Chest" type="Node2D"]
+script = ExtResource("1_yhr50")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0.5, -4.5)
+shape = SubResource("RectangleShape2D_rh4i5")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+material = SubResource("ShaderMaterial_vjfts")
+texture = ExtResource("1_4i3ud")
+offset = Vector2(0, -7)
+hframes = 2

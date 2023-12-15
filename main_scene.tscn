@@ -1,8 +1,8 @@
-[gd_scene load_steps=21 format=3 uid="uid://cp1b2qbreo70l"]
+[gd_scene load_steps=22 format=3 uid="uid://cp1b2qbreo70l"]
 
-[ext_resource type="PackedScene" uid="uid://2cr400nuslu6" path="res://level_1.tscn" id="1_7ttnd"]
 [ext_resource type="Script" path="res://BulletController.gd" id="1_varq8"]
 [ext_resource type="PackedScene" uid="uid://c4p8q1lt6aqwf" path="res://character_body_2d.tscn" id="3_wul7s"]
+[ext_resource type="Script" path="res://LevelManager.gd" id="4_dwp5s"]
 [ext_resource type="Script" path="res://DropManager.gd" id="4_vjb34"]
 [ext_resource type="Script" path="res://HUD_Manager.gd" id="5_p5r31"]
 [ext_resource type="Texture2D" uid="uid://cc4in0lu4rarj" path="res://pistol.png" id="5_ywllf"]
@@ -32,17 +32,22 @@ border_width_bottom = 1
 border_color = Color(0.8, 0.8, 0.8, 0)
 
 [sub_resource type="LabelSettings" id="LabelSettings_q675d"]
+resource_local_to_scene = true
 font = ExtResource("6_q6u6u")
 font_size = 5
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ot1dm"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_e8r3a"]
+resource_local_to_scene = true
+font = ExtResource("6_q6u6u")
+font_size = 5
 
 [sub_resource type="ImageTexture" id="ImageTexture_22w5c"]
 
 [sub_resource type="Theme" id="Theme_b8dfb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vb6xf"]
-bg_color = Color(0.784314, 0.588235, 0, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
@@ -68,8 +73,7 @@ script = ExtResource("1_varq8")
 script = ExtResource("4_vjb34")
 
 [node name="LevelManager" type="Node2D" parent="." groups=["saveable"]]
-
-[node name="Level1" parent="LevelManager" instance=ExtResource("1_7ttnd")]
+script = ExtResource("4_dwp5s")
 
 [node name="HUD" type="Panel" parent="."]
 offset_left = 2.0
@@ -133,13 +137,14 @@ texture = ExtResource("7_7cseh")
 metadata/_edit_use_anchors_ = true
 
 [node name="Tickets" type="Label" parent="HUD/Gun_Box/Ticket_Icon"]
+layout_mode = 0
 offset_left = 2.0
 offset_top = -2.0
 offset_right = 22.0
 offset_bottom = 7.0
 rotation = -1.5708
 text = "X0"
-label_settings = SubResource("LabelSettings_q675d")
+label_settings = SubResource("LabelSettings_e8r3a")
 
 [node name="Current_Gun" type="TextureRect" parent="HUD/Gun_Box"]
 layout_mode = 1

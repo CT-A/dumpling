@@ -22,9 +22,9 @@ func load_save(save):
 		var pos = Vector2(d["pos_x"],d["pos_y"])
 		var path = d["path"]
 		var rarity = d["rar"]
-		var xp = d["xp"]
+		var _xp = d["xp"]
 		var lvl = d["lvl"]
-		_drop([pos,path,rarity,xp])
+		_drop([pos,path,rarity,_xp, lvl])
 
 # Returns an array of saves for the drops
 func get_drops_saves():
