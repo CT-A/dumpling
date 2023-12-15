@@ -246,8 +246,6 @@ func _physics_process(delta):
 	
 	# Check if walking
 	if Input.is_action_pressed("cc_shift") and is_on_floor():
-		hurt(1)
-		active_gun.xp += 4
 		movespeed = SPEED/2
 	else:
 		movespeed = SPEED

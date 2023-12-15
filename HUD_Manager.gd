@@ -34,7 +34,11 @@ func _flash_hud(module):
 # Flash the tickets number red to indicate no tickets
 func flash_tickets():
 	tickets_text.label_settings.font_color = Color.RED
-	await get_tree().create_timer(0.3).timeout
+	await get_tree().create_timer(0.1).timeout
+	tickets_text.label_settings.font_color = Color.WHITE
+	await get_tree().create_timer(0.2).timeout
+	tickets_text.label_settings.font_color = Color.RED
+	await get_tree().create_timer(0.1).timeout
 	tickets_text.label_settings.font_color = Color.WHITE
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -1,10 +1,10 @@
 extends Node2D
 
-var current_level = "res://level_1.tscn"
+var current_level = "res://level_0.tscn"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# load lvl 1 (will get overwritten when loading a save)
+	# load lvl 0 (will get overwritten when loading a save)
 	next_level(current_level)
 
 # Load in a level from the given path and set it to the current level. 
