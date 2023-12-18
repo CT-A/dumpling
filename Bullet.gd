@@ -1,8 +1,8 @@
 extends RigidBody2D
 
 const margin = 100
-const knock_per_dmg = 3000
-const knock_delay = 0.06
+const knock_per_dmg = 1000
+const knock_delay = 0.03
 var pre_collision_vel = Vector2(0,0)
 var damage = 1
 @onready var animTree = $AnimationTree

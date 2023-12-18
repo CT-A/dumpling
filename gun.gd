@@ -9,7 +9,7 @@ var controller = true
 var _path = "res://gun.tscn"
 
 const cd_bar_path = "res://bar.tscn"
-const MAX_LVL = 3
+const MAX_LVL = 100
 const MAX_XP = 50
 
 var cd_bar = load(cd_bar_path).instantiate()
@@ -17,6 +17,7 @@ var offset = Vector2(5,-4)
 var BULLET_SPEED = 500
 var auto = true
 var damage = 1
+var dmg_per_lvl = 1
 var recoil = 0
 var recoil_scaling = 0
 var flipped = false
@@ -47,7 +48,7 @@ func _ready():
 		flipped = true
 	else:
 		flipped = false
-
+	dmg_per_lvl = damage
 # This is probably unneccessary unless I want to be able to do Gun.new(save)
 func _init(save = null):
 	if save:
@@ -61,23 +62,20 @@ func reset_cd_bar():
 func get_save():
 	var save = {
 		"path" : _path,
-		"dmg" : damage,
-		"rec" : recoil,
 		"cd" : cooldown,
 		"exp" : xp,
 		"level" : lvl,
-		"bul_size" : bullet_size,
+		"rar" : rarity
 	}
 	return save
 
 func load_save(s):
 	_path = s.get("path")
-	damage = s.get("dmg")
-	recoil = s.get("rec")
-	cooldown = s.get("cd")
+	lvl = 1
+	while lvl < s.get("level"):
+		level_up()
 	xp = s.get("exp")
-	lvl = s.get("level")
-	bullet_size = s.get("bul_size")
+	cooldown = s.get("cd")
 
 # Tell Player to recoil by this amount
 func request_recoil(amt):
@@ -129,8 +127,8 @@ func snap(val, step):
 func level_up():
 	if (lvl<MAX_LVL):
 		lvl = lvl + 1
-		damage += 1
-		bullet_size += 1
+		damage += dmg_per_lvl
+		bullet_size += 0.2 * dmg_per_lvl
 		recoil += recoil_scaling
 		if (lvl<MAX_LVL):
 			xp = 0

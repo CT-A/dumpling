@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://4ejqscgc2owj"]
+
+[ext_resource type="Script" path="res://door.gd" id="1_00yk1"]
+[ext_resource type="Texture2D" uid="uid://gw03bm8jaklb" path="res://door.png" id="1_ybko3"]
+[ext_resource type="Shader" path="res://interactable.gdshader" id="2_yodcs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_poumv"]
+size = Vector2(10, 14)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b107u"]
+resource_local_to_scene = true
+shader = ExtResource("2_yodcs")
+shader_parameter/color = Color(1, 1, 1, 0.5)
+shader_parameter/width = 1.0
+shader_parameter/pattern = 0
+shader_parameter/inside = false
+shader_parameter/add_margins = true
+
+[node name="Door" type="Node2D" groups=["doors", "reload_on_save"]]
+z_index = -1
+z_as_relative = false
+script = ExtResource("1_00yk1")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_poumv")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+z_as_relative = false
+material = SubResource("ShaderMaterial_b107u")
+texture = ExtResource("1_ybko3")
+offset = Vector2(0, -8)
+hframes = 2

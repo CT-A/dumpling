@@ -85,7 +85,7 @@ func load_save(save):
 	coyoteFrame = save.coyote_frame
 	tickets = save.tickets
 	load_guns(save.gun_list)
-	var new_active_gun = load(save.gun["path"]).instantiate() if save.gun else null
+	var new_active_gun = load(save.gun.path).instantiate() if save.gun else null
 	if new_active_gun:
 		await pickup_gun(new_active_gun)
 		new_active_gun.load_save(save.gun)
@@ -95,7 +95,7 @@ func load_guns(gl):
 	guns = []
 	for g in gl:
 		if g:
-			var new_gun = load(g["path"]).instantiate()
+			var new_gun = load(g.path).instantiate()
 			await pickup_gun(new_gun)
 			new_gun.load_save(g)
 
@@ -151,6 +151,12 @@ func pickup_gun(g):
 
 # Drop gun
 func drop(g):
+	if g == active_gun && guns.size() == 1:
+		active_gun = null
+		var cs = get_children()
+		for c in cs:
+			if c is Gun:
+				c.queue_free()
 	guns.erase(g)
 	var dropPos = position + g.offset
 	dropPos.y = dropPos.y - 5
@@ -190,7 +196,12 @@ func collectXP(amt):
 
 func get_secondary():
 	if (active_gun != null):
-		return guns[(guns.find(active_gun) + 1) % guns.size()]
+		var ret
+		if guns.size() > 0:
+			ret = guns[(guns.find(active_gun) + 1) % guns.size()]
+		else:
+			ret = active_gun
+		return ret
 	else:
 		return null
 
@@ -235,6 +246,12 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("cc_swap"):
 		if !guns.is_empty():
 			swapGun(get_secondary())
+	# Drop gun
+	if Input.is_action_just_pressed("cc_drop"):
+		if !guns.is_empty():
+			var gun_to_drop = active_gun
+			await swapGun(get_secondary())
+			drop(gun_to_drop)
 	
 	# Add the gravity.
 	if not is_on_floor():

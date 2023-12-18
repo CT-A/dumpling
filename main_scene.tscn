@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cp1b2qbreo70l"]
+[gd_scene load_steps=23 format=3 uid="uid://cp1b2qbreo70l"]
 
 [ext_resource type="Script" path="res://BulletController.gd" id="1_varq8"]
 [ext_resource type="PackedScene" uid="uid://c4p8q1lt6aqwf" path="res://character_body_2d.tscn" id="3_wul7s"]
@@ -60,6 +60,8 @@ border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jfep0"]
 
 [node name="MainScene" type="Node2D"]
 
@@ -215,7 +217,7 @@ offset_right = 34.0
 offset_bottom = 20.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_ot7e5")
 
-[node name="PauseManager" type="Control" parent="." node_paths=PackedStringArray("menu", "died_screen", "return_to_main_button", "died_return_to_main_button", "resume_button", "player")]
+[node name="PauseManager" type="Control" parent="." node_paths=PackedStringArray("menu", "died_screen", "return_to_main_button", "died_return_to_main_button", "resume_button", "save_button", "player")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 384.0
@@ -223,9 +225,10 @@ offset_bottom = 216.0
 script = ExtResource("9_xpsjq")
 menu = NodePath("PauseScreen")
 died_screen = NodePath("Died_Screen")
-return_to_main_button = NodePath("PauseScreen/BackToMain")
+return_to_main_button = NodePath("PauseScreen/Buttons/BackToMain")
 died_return_to_main_button = NodePath("Died_Screen/Return_To_Menu")
-resume_button = NodePath("PauseScreen/Unpause")
+resume_button = NodePath("PauseScreen/Buttons/Unpause")
+save_button = NodePath("PauseScreen/Buttons/Save")
 player = NodePath("../Player")
 
 [node name="PauseScreen" type="Panel" parent="PauseManager"]
@@ -234,24 +237,37 @@ layout_mode = 0
 offset_right = 384.0
 offset_bottom = 216.0
 
-[node name="Unpause" type="Button" parent="PauseManager/PauseScreen"]
+[node name="Buttons" type="Panel" parent="PauseManager/PauseScreen"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -40.0
-offset_top = -22.0
-offset_right = 40.0
-offset_bottom = -2.0
+offset_left = -192.0
+offset_top = -50.0
+offset_right = 192.0
+offset_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_jfep0")
+
+[node name="Unpause" type="Button" parent="PauseManager/PauseScreen/Buttons"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -40.0
+offset_right = 40.0
+offset_bottom = 20.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
 theme_override_fonts/font = ExtResource("6_q6u6u")
 theme_override_font_sizes/font_size = 10
 text = "RESUME"
 
-[node name="BackToMain" type="Button" parent="PauseManager/PauseScreen"]
+[node name="Save" type="Button" parent="PauseManager/PauseScreen/Buttons"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -259,11 +275,31 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -40.0
-offset_top = 2.0
+offset_top = -10.0
 offset_right = 40.0
-offset_bottom = 22.0
+offset_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("6_q6u6u")
+theme_override_font_sizes/font_size = 10
+text = "SAVE"
+
+[node name="BackToMain" type="Button" parent="PauseManager/PauseScreen/Buttons"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -20.0
+offset_right = 40.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 8
 theme_override_fonts/font = ExtResource("6_q6u6u")
 theme_override_font_sizes/font_size = 10
 text = "MAIN MENU"

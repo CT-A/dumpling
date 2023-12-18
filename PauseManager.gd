@@ -9,15 +9,18 @@ var dead = false
 @export var return_to_main_button = Button.new()
 @export var died_return_to_main_button = Button.new()
 @export var resume_button = Button.new()
+@export var save_button = Button.new()
 @export var player = Node2D.new()
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	menu = $PauseScreen
 	died_screen = $Died_Screen
 	died_screen.visible = false
-	return_to_main_button = $PauseScreen/BackToMain
+	return_to_main_button = $PauseScreen/Buttons/BackToMain
 	died_return_to_main_button = $Died_Screen/Return_To_Menu
-	resume_button = $PauseScreen/Unpause
+	resume_button = $PauseScreen/Buttons/Unpause
+	save_button = $PauseScreen/Buttons/Save
 	player = $"../Player"
 	remove_child(menu)
 	remove_child(died_screen)
@@ -25,6 +28,7 @@ func _ready():
 	resume_button.pressed.connect(self._close_menu)
 	return_to_main_button.pressed.connect(self._return_to_main)
 	died_return_to_main_button.pressed.connect(self._return_to_main)
+	save_button.pressed.connect(self._save_game)
 	player.die.connect(self._display_died_screen)
 
 # Show the "you died" screen
@@ -65,17 +69,21 @@ func _save_game():
 			save_dict[n.name] = n.get_save()
 			var save_json_string = JSON.stringify(save_dict)
 			game_save.store_line(save_json_string)
+	save_button.text = "SAVED!"
 
 # Open the pause menu and pause the game
 func _open_menu():
+	save_button.text = "SAVE"
 	if !open:
 		open = true
 		add_child(menu)
 		get_tree().paused = true
 		Engine.time_scale = 0
+		resume_button.grab_focus()
 	
 # Close the menu and resume the game
 func _close_menu():
+	save_button.text = "SAVE"
 	if open:
 		open = false
 		remove_child(menu)

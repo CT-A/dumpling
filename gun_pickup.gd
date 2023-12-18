@@ -15,20 +15,35 @@ func get_save():
 	var save = {
 		"pos_x" : position.x,
 		"pos_y" : position.y,
-		"path" : gun_path,
+		"path" : "res://gun_pickup.tscn",
+		"gun_path" : gun_path,
 		"rar" : default_rarity,
 		"xp" : gun.xp,
 		"lvl" : gun.lvl
 	}
 	return save
 
-# Load in a new gun from the specified path
-func _update_gun(new_path,xp,lvl):
-	gun_path = new_path
+# This normally won't be called, since gun pickups are loaded by the dm.
+#  It is relevent because a fixed drop (part of a level) will load it through
+#   the level manager instead of the drop manager
+func load_save(s):
+	position = Vector2(s["pos_x"],s["pos_y"])
+	default_rarity = int(s["rar"])
+	_update_gun(s)
+
+# Load in a new gun from the specified save
+func _update_gun(save):
+	var xp = save["xp"]
+	var lvl = save["lvl"]
+	gun_path = save["gun_path"]
+	default_rarity = int(save["rar"])
+	set_rarity(default_rarity)
 	gun = load(gun_path).instantiate()
 	$Area2D/Sprite2D.texture = gun.get_node("Area2D/Sprite2D").texture
+	gun.lvl = 1
+	while gun.lvl < lvl:
+		gun.level_up()
 	gun.xp = xp
-	gun.lvl = lvl
 	loaded = true
 
 func interact():

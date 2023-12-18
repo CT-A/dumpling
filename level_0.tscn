@@ -1,10 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://c1h3dy7p28wbk"]
+[gd_scene load_steps=4 format=3 uid="uid://c1h3dy7p28wbk"]
 
 [ext_resource type="PackedScene" uid="uid://f5ramw81ecs2" path="res://platform.tscn" id="1_cjdp1"]
+[ext_resource type="Script" path="res://level_0.gd" id="1_wpoa0"]
 [ext_resource type="PackedScene" uid="uid://ctwbjq1rowume" path="res://gun_pickup.tscn" id="2_svnw5"]
 
-[node name="Level0" type="Node2D"]
+[node name="Level0" type="Node2D" node_paths=PackedStringArray("gun_pickup", "door_position_node")]
 z_index = 2
+script = ExtResource("1_wpoa0")
+gun_pickup = NodePath("Gun_Pickup")
+door_position_node = NodePath("Exit")
+following_level_path = "res://level_1.tscn"
 
 [node name="Ground" type="StaticBody2D" parent="."]
 position = Vector2(0, 192)
@@ -69,8 +74,11 @@ polygon = PackedVector2Array(0, 0, 384, 0, 384, 24, 0, 24)
 [node name="Platform3" parent="." instance=ExtResource("1_cjdp1")]
 position = Vector2(144, 160)
 
-[node name="Gun_Pickup" parent="." instance=ExtResource("2_svnw5")]
+[node name="Gun_Pickup" parent="." groups=["reload_on_save"] instance=ExtResource("2_svnw5")]
 position = Vector2(192, 152)
 
 [node name="Start" type="Node2D" parent="."]
 position = Vector2(8, 184)
+
+[node name="Exit" type="Node2D" parent="."]
+position = Vector2(192, 192)

@@ -8,7 +8,7 @@ const SPEED = 50.0
 const JUMP_VELOCITY = -250.0
 const JUMP_DELAY = 1.0
 const CHASE_MARGIN = 50
-const TICKET_DROP_CHANCE = 1
+const TICKET_DROP_CHANCE = 10
 
 @onready var animationTree = $AnimationTree
 @onready var player = get_tree().root.get_node("GameManager/MainScene/Player")
@@ -65,14 +65,14 @@ func _on_collide(object_hit):
 
 # Figure out what to drop and drop it
 func _drop_stuff():
-	var rng = RandomNumberGenerator.new()
-	rng.seed = get_tree().root.get_node("GameManager").rand_seed + name.hash()
+	var rng = get_tree().root.get_node("GameManager").random
 	var xp_to_drop = rng.randi_range(5,15)
 	var drop_ticket = rng.randi_range(0,10) <= TICKET_DROP_CHANCE
 	var dm = get_tree().root.get_node("GameManager/MainScene/DropManager")
 	dm.drop_xp(xp_to_drop,global_position)
 	if drop_ticket:
 		var drop_pos = global_position
+		drop_pos.y -= 5
 		dm.drop_ticket(drop_pos)
 
 # Drop anything necessary then queue_free

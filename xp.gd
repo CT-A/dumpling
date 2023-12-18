@@ -26,7 +26,9 @@ func get_save():
 	var save = {
 		"pos_x" : position.x,
 		"pos_y" : position.y,
-		"path" : "xp",
+		"vel_x" : linear_velocity.x,
+		"vel_y" : linear_velocity.y,
+		"path" : "res://xp.tscn",
 		"rar" : -1,
 		"xp" : 1,
 		"lvl" : 0,

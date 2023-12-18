@@ -17,14 +17,14 @@ func get_save():
 	var save = {
 		"pos_x" : position.x,
 		"pos_y" : position.y,
-		"path" : "ticket",
+		"path" : "res://ticket.tscn",
 		"rar" : int(4),
 		"xp" : -1,
 		"lvl" : -1
 	}
 	return save
 
-# If intered by the player, let it know
+# If you hit the ground you're grounded
 func _on_body_entered(body):
 	if body.collision_layer == 2:
 		grounded = true

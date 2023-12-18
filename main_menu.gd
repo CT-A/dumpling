@@ -3,12 +3,14 @@ extends Control
 @onready var cont = $CenterBar/Continue_Button
 
 var rand_seed = 0
+var random = RandomNumberGenerator.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	start.process_mode = Node.PROCESS_MODE_ALWAYS
 	start.pressed.connect(self._start_game)
 	cont.pressed.connect(self._continue_game)
+	cont.grab_focus()
 
 func get_save():
 	var s = {
@@ -21,7 +23,8 @@ func load_save(s):
 
 # Start the game
 func _start_game():
-	rand_seed = RandomNumberGenerator.new().randi_range(-100000,100000)
+	rand_seed = random.randi_range(-100000,100000)
+	random.seed = rand_seed
 	hide_menu()
 	add_child(load(("res://main_scene.tscn")).instantiate())
 
