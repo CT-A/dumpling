@@ -1,12 +1,12 @@
-[gd_scene load_steps=25 format=3 uid="uid://dwfoovktlk7ub"]
+[gd_scene load_steps=25 format=3 uid="uid://ds75bxj112t4x"]
 
-[ext_resource type="Script" path="res://ground_enemy.gd" id="1_vu54q"]
-[ext_resource type="Texture2D" uid="uid://d18t50tg0i3uw" path="res://bean_spriteSheet_cookieColor.png" id="2_5m2vo"]
+[ext_resource type="Script" path="res://air_enemy.gd" id="1_5hfmx"]
+[ext_resource type="Texture2D" uid="uid://d18t50tg0i3uw" path="res://bean_spriteSheet_cookieColor.png" id="1_vvei1"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_wfqvd"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_w4j01"]
 radius = 4.0
 
-[sub_resource type="Shader" id="Shader_wmark"]
+[sub_resource type="Shader" id="Shader_b3ixb"]
 code = "shader_type canvas_item;
 
 uniform vec4 flash_color : source_color = vec4(1.0);
@@ -19,9 +19,9 @@ void fragment() {
 }
 "
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_83mj8"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d1olv"]
 resource_local_to_scene = true
-shader = SubResource("Shader_wmark")
+shader = SubResource("Shader_b3ixb")
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_mod = 0.0
 
@@ -376,7 +376,7 @@ advance_condition = &"stop_hurt"
 advance_mode = 2
 advance_condition = &"hurt"
 
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_gr8wx"]
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_bwrg1"]
 states/Start/position = Vector2(146, 95)
 states/alive/node = SubResource("AnimationNodeBlendSpace1D_r71jg")
 states/alive/position = Vector2(294, 95)
@@ -385,24 +385,23 @@ states/hurting/position = Vector2(463, 16)
 transitions = ["Start", "alive", SubResource("AnimationNodeStateMachineTransition_ebhbu"), "hurting", "alive", SubResource("AnimationNodeStateMachineTransition_ih77y"), "alive", "hurting", SubResource("AnimationNodeStateMachineTransition_6l7oj")]
 graph_offset = Vector2(-3, -31)
 
-[node name="CharacterBody2D" type="RigidBody2D" groups=["reload_on_save"]]
+[node name="RigidBody2D" type="RigidBody2D" groups=["reload_on_save"]]
 collision_layer = 8
 collision_mask = 3
 max_contacts_reported = 2
 contact_monitor = true
 lock_rotation = true
-script = ExtResource("1_vu54q")
-metadata/_edit_group_ = true
+script = ExtResource("1_5hfmx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(5, -4)
-shape = SubResource("CircleShape2D_wfqvd")
+shape = SubResource("CircleShape2D_w4j01")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.788235, 0, 0, 1)
-material = SubResource("ShaderMaterial_83mj8")
+material = SubResource("ShaderMaterial_d1olv")
 position = Vector2(0, -12)
-texture = ExtResource("2_5m2vo")
+texture = ExtResource("1_vvei1")
 centered = false
 hframes = 24
 vframes = 5
@@ -414,7 +413,7 @@ libraries = {
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 process_mode = 1
-tree_root = SubResource("AnimationNodeStateMachine_gr8wx")
+tree_root = SubResource("AnimationNodeStateMachine_bwrg1")
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/conditions/hurt = false

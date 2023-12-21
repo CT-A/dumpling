@@ -43,6 +43,8 @@ const MAX_HP = 10
 
 # Keep track of current recoil
 var recoil = Vector2(0,0)
+# Keep track of current knockback (similar to recoil but not gaited by jump height)
+var knockback = Vector2(0,0)
 
 var HP = 10
 var movespeed = SPEED
@@ -67,6 +69,8 @@ func get_save():
 		"pos_y" : position.y,
 		"rec_x" : recoil.x,
 		"rec_y" : recoil.y,
+		"knock_x" : knockback.x,
+		"knock_y" : knockback.y,
 		"hp" : HP,
 		"gun_list" : get_guns_saves(),
 		"gun" : active_gun.get_save() if active_gun else null,
@@ -81,6 +85,8 @@ func load_save(save):
 	position.y = save.pos_y
 	recoil.x = save.rec_x
 	recoil.y = save.rec_y
+	knockback.x = save.knock_x
+	knockback.y = save.knock_y
 	HP = save.hp
 	coyoteFrame = save.coyote_frame
 	tickets = save.tickets
@@ -169,6 +175,10 @@ func frameFreeze(timeScale, duration):
 	await get_tree().create_timer(duration*timeScale).timeout
 	Engine.time_scale = 1.0
 
+# Alias for hurt()
+func _hurt(dmg,freeze = true):
+	hurt(dmg,freeze)
+
 # When hurt, take damage and do hitstop (also display hurt animation)
 func hurt(damage, freeze = true):
 	HP -= damage
@@ -181,7 +191,12 @@ func hurt(damage, freeze = true):
 func update_recoil(a):
 	recoil += a
 
+# Get knocked back by an amount
+func update_knockback(a):
+	knockback += a
+
 func requestBullet(posvel):
+	posvel.append(true)
 	player_shoot.emit(posvel)
 
 func collectXP(amt):
@@ -287,6 +302,10 @@ func _physics_process(delta):
 	recoil.y = clamp(recoil.y,1*JUMP_VELOCITY,0)
 	velocity.y = clamp(velocity.y + recoil.y,1*JUMP_VELOCITY,-1*JUMP_VELOCITY)
 	velocity.x = recoil.x + velocity.x
+	knockback.x = lerp(knockback.x,0.0,0.3)
+	knockback.y = lerp(knockback.y,0.0,0.3)
+	velocity.y = velocity.y + knockback.y
+	velocity.x = knockback.x + velocity.x
 	if move_and_slide():
 		for i in get_slide_collision_count():
 			var col = get_slide_collision(i)

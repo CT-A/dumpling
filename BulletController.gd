@@ -10,10 +10,14 @@ func _ready():
 	# Connect the player's shoot_bullet signal to a function in this scene
 	player.player_shoot.connect(fireBullet)
 
+# Connect to the specified enemy's shoot signal
+func add_enemy(e):
+	e.shoot.connect(fireEnemyBullet)
+
 # Return a dictionary of saved info
 func get_save():
 	var save = {
-		"bullets" : get_bullet_saves()
+		"bullets" : get_bullet_saves(),
 	}
 	return save
 
@@ -34,9 +38,14 @@ func load_save(sv):
 		var rot = b["rot"]
 		var dmg = b["dmg"]
 		var size = b["size"]
-		var infoArray = [pos,vel,rot,dmg,size]
+		var friendly = b["friendly"]
+		var infoArray = [pos,vel,rot,dmg,size,friendly]
 		fireBullet(infoArray)
 
+# Shoot an enemy bullet
+func fireEnemyBullet(p,v,r=0,d=1,s=1):
+	var posvel = [p,v,r,d,s,false]
+	fireBullet(posvel)
 
 # This is seperate from the gun script so the bullet travels in world space.
 func fireBullet(posvel):
@@ -45,12 +54,14 @@ func fireBullet(posvel):
 	var rot = posvel[2]
 	var dmg = posvel[3]
 	var size = posvel[4]
+	var friendly = posvel[5]
 	var newBullet = bullet.instantiate()
 	newBullet.position = pos
 	newBullet.linear_velocity = vel
 	newBullet.rotation = rot
 	newBullet.find_child("Bullet").scale = newBullet.scale*size
 	newBullet.damage = dmg
+	newBullet.set_friendly(friendly)
 	add_child(newBullet)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
