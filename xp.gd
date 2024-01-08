@@ -46,6 +46,8 @@ func _on_collide(object_hit):
 func _process(delta):
 	var dir = (player.global_position - global_position)
 	spawn_timer -= delta
-	spawn_timer = max(0, spawn_timer)
+	spawn_timer = max(-4, spawn_timer)
+	if spawn_timer == -4:
+		gravity_scale = 0
 	self.apply_central_force(dir.normalized()*500*max(0,1-spawn_timer))
 		

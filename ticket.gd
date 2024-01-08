@@ -18,7 +18,7 @@ func get_save():
 		"pos_x" : position.x,
 		"pos_y" : position.y,
 		"path" : "res://ticket.tscn",
-		"rar" : int(4),
+		"rar" : int(0),
 		"xp" : -1,
 		"lvl" : -1
 	}

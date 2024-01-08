@@ -5,7 +5,7 @@ const JUMP_DELAY = 1.0
 
 func _ready():
 	ENEMY_TYPE_PATH = "res://ground_enemy.tscn"
-	TICKET_DROP_CHANCE = 2
+	TICKET_DROP_CHANCE = 10
 	SPEED = 100
 	super()
 

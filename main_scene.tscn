@@ -1,11 +1,10 @@
-[gd_scene load_steps=23 format=3 uid="uid://cp1b2qbreo70l"]
+[gd_scene load_steps=21 format=3 uid="uid://cp1b2qbreo70l"]
 
 [ext_resource type="Script" path="res://BulletController.gd" id="1_varq8"]
 [ext_resource type="PackedScene" uid="uid://c4p8q1lt6aqwf" path="res://character_body_2d.tscn" id="3_wul7s"]
 [ext_resource type="Script" path="res://LevelManager.gd" id="4_dwp5s"]
 [ext_resource type="Script" path="res://DropManager.gd" id="4_vjb34"]
 [ext_resource type="Script" path="res://HUD_Manager.gd" id="5_p5r31"]
-[ext_resource type="Texture2D" uid="uid://cc4in0lu4rarj" path="res://pistol.png" id="5_ywllf"]
 [ext_resource type="FontFile" uid="uid://cw5fvpijsuxh5" path="res://TeenyTinyPixls-o2zo.ttf" id="6_q6u6u"]
 [ext_resource type="Texture2D" uid="uid://wmvv6dw8j04w" path="res://ticket.png" id="7_7cseh"]
 [ext_resource type="Texture2D" uid="uid://bdgc6out3wvfa" path="res://swap_arrow.png" id="8_omnuc"]
@@ -42,8 +41,6 @@ font_size = 5
 resource_local_to_scene = true
 font = ExtResource("6_q6u6u")
 font_size = 5
-
-[sub_resource type="ImageTexture" id="ImageTexture_22w5c"]
 
 [sub_resource type="Theme" id="Theme_b8dfb"]
 
@@ -155,8 +152,8 @@ anchor_left = 0.0235294
 anchor_top = 0.3
 anchor_right = 0.258824
 anchor_bottom = 0.966666
-texture = SubResource("ImageTexture_22w5c")
-expand_mode = 3
+expand_mode = 4
+stretch_mode = 5
 metadata/_edit_use_anchors_ = true
 
 [node name="Secondary_Gun" type="TextureRect" parent="HUD/Gun_Box"]
@@ -166,8 +163,8 @@ anchor_left = 0.270588
 anchor_top = 0.3
 anchor_right = 0.388235
 anchor_bottom = 0.633333
-texture = ExtResource("5_ywllf")
-expand_mode = 1
+expand_mode = 5
+stretch_mode = 5
 metadata/_edit_use_anchors_ = true
 
 [node name="Swap_Arrow" type="TextureRect" parent="HUD/Gun_Box"]

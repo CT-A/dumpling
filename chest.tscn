@@ -21,8 +21,26 @@ z_index = -1
 z_as_relative = false
 script = ExtResource("1_yhr50")
 gun_list = {
-"res://gun.tscn": 0,
-"res://revolver.tscn": 1
+"res://pistol_0.tscn": 0,
+"res://pistol_1.tscn": 1,
+"res://pistol_2.tscn": 2,
+"res://pistol_3.tscn": 3,
+"res://pistol_4.tscn": 4,
+"res://revolver_0.tscn": 0,
+"res://revolver_1.tscn": 1,
+"res://revolver_2.tscn": 2,
+"res://revolver_3.tscn": 3,
+"res://revolver_4.tscn": 4,
+"res://shotgun_0.tscn": 0,
+"res://shotgun_1.tscn": 1,
+"res://shotgun_2.tscn": 2,
+"res://shotgun_3.tscn": 3,
+"res://shotgun_4.tscn": 4,
+"res://smg_0.tscn": 0,
+"res://smg_1.tscn": 1,
+"res://smg_2.tscn": 2,
+"res://smg_3.tscn": 3,
+"res://smg_4.tscn": 4
 }
 
 [node name="Area2D" type="Area2D" parent="."]

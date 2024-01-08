@@ -1,6 +1,7 @@
 extends Control
 @onready var start = $CenterBar/Start_Button
 @onready var cont = $CenterBar/Continue_Button
+@onready var exit = $CenterBar/Exit_Button
 
 var rand_seed = 0
 var random = RandomNumberGenerator.new()
@@ -10,6 +11,7 @@ func _ready():
 	start.process_mode = Node.PROCESS_MODE_ALWAYS
 	start.pressed.connect(self._start_game)
 	cont.pressed.connect(self._continue_game)
+	exit.pressed.connect(self._quit_game)
 	cont.grab_focus()
 
 func get_save():
@@ -74,6 +76,11 @@ func find_node_by_name(list,n):
 	return found
 func hide_menu():
 	$CenterBar.hide()
+
+# Close the game window
+func _quit_game():
+	get_tree().quit()
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass

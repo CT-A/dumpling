@@ -1,14 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://bl1vhh5megecj"]
+[gd_scene load_steps=4 format=3 uid="uid://dmi6eit6kvh3v"]
 
-[ext_resource type="Script" path="res://revolver.gd" id="1_pa4so"]
-[ext_resource type="Texture2D" uid="uid://7gafurfh8dh2" path="res://revolver.png" id="2_ysodt"]
+[ext_resource type="Texture2D" uid="uid://n1prynuwk3i1" path="res://shotgun.png" id="1_lk08t"]
+[ext_resource type="Script" path="res://shotgun_1.gd" id="1_pjo2o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xupyw"]
 size = Vector2(14, 4)
 
-[node name="Revolver" type="Node2D"]
+[node name="Shotgun" type="Node2D"]
 z_as_relative = false
-script = ExtResource("1_pa4so")
+script = ExtResource("1_pjo2o")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 0
@@ -20,9 +20,9 @@ position = Vector2(15, 0)
 [node name="Sprite2D" type="Sprite2D" parent="Area2D"]
 z_index = 1
 position = Vector2(-1, 0)
-texture = ExtResource("2_ysodt")
-offset = Vector2(15, 1)
+texture = ExtResource("1_lk08t")
+offset = Vector2(5.475, 2)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(15, 0)
+position = Vector2(8, 0)
 shape = SubResource("RectangleShape2D_xupyw")

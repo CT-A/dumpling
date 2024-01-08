@@ -186,6 +186,7 @@ func hurt(damage, freeze = true):
 	if freeze:
 		await frameFreeze(0.1,0.4)
 	animationTree["parameters/conditions/hurt"] = false
+	return false
 
 # Recoil back by the specified amount
 func update_recoil(a):
@@ -196,7 +197,6 @@ func update_knockback(a):
 	knockback += a
 
 func requestBullet(posvel):
-	posvel.append(true)
 	player_shoot.emit(posvel)
 
 func collectXP(amt):

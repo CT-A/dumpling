@@ -26,6 +26,7 @@ var can_jump = true
 var loaded = false
 var min_xp_drop = 5
 var max_xp_drop = 15
+var dead = false
 
 func _ready():
 	if !loaded:
@@ -73,7 +74,7 @@ func _on_collide(object_hit):
 func _drop_stuff():
 	var rng = get_tree().root.get_node("GameManager").random
 	var xp_to_drop = rng.randi_range(min_xp_drop,max_xp_drop)
-	var drop_ticket = rng.randi_range(0,10) <= TICKET_DROP_CHANCE
+	var drop_ticket = rng.randi_range(0,99) < TICKET_DROP_CHANCE
 	var dm = get_tree().root.get_node("GameManager/MainScene/DropManager")
 	dm.drop_xp(xp_to_drop,global_position)
 	if drop_ticket:
@@ -83,19 +84,28 @@ func _drop_stuff():
 
 # Drop anything necessary then queue_free
 func _die():
-	_drop_stuff()
-	queue_free()
+	if !dead:
+		dead = true
+		_drop_stuff()
+		queue_free()
 
-# Reduce hp by damage and display a flash. Then die if necessary
-func _hurt(dmg):
-	HP -= dmg
+# Flash white
+func flash():
 	$Sprite2D.material.set_shader_parameter("flash_mod", 1.0)
 	await get_tree().create_timer(0.05).timeout
 	$Sprite2D.material.set_shader_parameter("flash_mod", 0.0)
+
+# Reduce hp by damage and display a flash. Then die if necessary.
+# Return true if hp is already at or below 0 when hit
+func _hurt(dmg):
+	var ret = HP <= 0
+	HP -= dmg
+	flash()
 	if behavior != "chasing":
 		behavior = "start_chasing"
 	if HP <= 0:
 		_die()
+	return ret
 
 # Enemy stops trying to path for a delay
 func lose_control(delay, grav = false):

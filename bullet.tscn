@@ -17,7 +17,7 @@ tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
+"update": 0,
 "values": [0]
 }
 
@@ -34,7 +34,7 @@ tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.05, 0.1, 0.15),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
+"update": 0,
 "values": [0, 1, 2, 3]
 }
 tracks/1/type = "method"
@@ -64,7 +64,7 @@ tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
+"update": 0,
 "values": [0]
 }
 
@@ -99,13 +99,9 @@ states/idle/node = SubResource("AnimationNodeAnimation_rhg6m")
 states/idle/position = Vector2(314, 100)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_1ft3f"), "idle", "explode", SubResource("AnimationNodeStateMachineTransition_7tqpb"), "explode", "End", SubResource("AnimationNodeStateMachineTransition_p54nv")]
 
-[node name="RigidBody2D" type="RigidBody2D"]
+[node name="Bullet" type="Area2D"]
 collision_layer = 4
 collision_mask = 11
-gravity_scale = 0.0
-continuous_cd = 1
-max_contacts_reported = 1
-contact_monitor = true
 script = ExtResource("2_tavaa")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

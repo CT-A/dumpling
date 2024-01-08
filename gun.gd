@@ -14,12 +14,18 @@ const MAX_XP = 50
 
 var cd_bar = load(cd_bar_path).instantiate()
 var offset = Vector2(5,-4)
+# Bullets are just bullets by default. 
+# Bullet type 1 is a lazer beam that pierces enemies
+var bullet_type = 0
 var BULLET_SPEED = 500
 var auto = true
 var damage = 1
 var dmg_per_lvl = 1
 var recoil = 0
 var recoil_scaling = 0
+var spread = 0.0
+var penetration = 0
+var pen_per_lvl = 0
 var flipped = false
 var shooting = false
 var max_cd = .3
@@ -91,13 +97,16 @@ func try_shoot():
 func shoot():
 	# Reset CD to max
 	cooldown = max_cd
+	# Figure out the spred addition for this bullet
+	var spread_offset = randf_range(-spread/2,spread/2)
 	# Set the bullet's position, velocity, and other properties
-	var heading = Vector2(cos(rotation),sin(rotation)).normalized()
+	var heading = Vector2(cos(rotation+spread_offset),sin(rotation+spread_offset)).normalized()
 	request_recoil(-1*heading*recoil)
 	var vel = (heading*BULLET_SPEED)
 	var rot = self.rotation
 	var dmg = damage
-	var posvel = [$Area2D/BulletSpawnLoc.global_position, vel, rot, dmg, bullet_size]
+	var pen = penetration
+	var posvel = [$Area2D/BulletSpawnLoc.global_position, vel, rot, dmg, bullet_size, pen, true, bullet_type]
 	return (posvel)
 
 func collides_with_obstacles(target_angle):
@@ -130,6 +139,7 @@ func level_up():
 		damage += dmg_per_lvl
 		bullet_size += 0.2 * dmg_per_lvl
 		recoil += recoil_scaling
+		penetration += pen_per_lvl
 		if (lvl<MAX_LVL):
 			xp = 0
 		else:

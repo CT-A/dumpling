@@ -1,12 +1,12 @@
 extends Gun
 
-class_name Revolver
+class_name Pistol
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	auto = false
-	recoil = 50
-	recoil_scaling = 50
+	auto = true
+	recoil = 0
+	recoil_scaling = 0
 	offset = Vector2(5,-4)
-	bullet_size = 1.5
+	bullet_size = 1
 	penetration = 0
 	super()

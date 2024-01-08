@@ -76,6 +76,7 @@ position = Vector2(144, 160)
 
 [node name="Gun_Pickup" parent="." groups=["reload_on_save"] instance=ExtResource("2_svnw5")]
 position = Vector2(192, 152)
+gun_path = "res://pistol_0.tscn"
 
 [node name="Start" type="Node2D" parent="."]
 position = Vector2(8, 184)

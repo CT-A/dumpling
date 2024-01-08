@@ -98,7 +98,7 @@ func _spawn(pos,vel,drop_save):
 	p.drop_save = drop_save
 	p.set_color_by_save_rarity()
 	p.dm = self
-	add_child(p)
+	add_child.call_deferred(p)
 
 # Create a drop from the given save and add it as a child
 # Needs a save that has pos_x,pos_y, path, rar
