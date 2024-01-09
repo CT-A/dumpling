@@ -4,6 +4,7 @@ const JUMP_VELOCITY = -250.0
 const JUMP_DELAY = 1.0
 
 func _ready():
+	Max_HP = 3
 	ENEMY_TYPE_PATH = "res://ground_enemy.tscn"
 	TICKET_DROP_CHANCE = 10
 	SPEED = 100

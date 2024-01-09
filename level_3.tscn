@@ -1,14 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://2cr400nuslu6"]
+[gd_scene load_steps=5 format=3 uid="uid://dc4s0vajdknvu"]
 
-[ext_resource type="Script" path="res://defeat_enemies_level.gd" id="1_lcst0"]
-[ext_resource type="PackedScene" uid="uid://f5ramw81ecs2" path="res://platform.tscn" id="1_npd33"]
-[ext_resource type="PackedScene" uid="uid://dwfoovktlk7ub" path="res://ground_enemy.tscn" id="3_olerr"]
+[ext_resource type="Script" path="res://defeat_enemies_level.gd" id="1_mwntf"]
+[ext_resource type="PackedScene" uid="uid://f5ramw81ecs2" path="res://platform.tscn" id="2_ittt8"]
+[ext_resource type="PackedScene" uid="uid://j5rh8wmpxcnn" path="res://chest.tscn" id="4_jsgqq"]
+[ext_resource type="PackedScene" uid="uid://ds75bxj112t4x" path="res://air_enemy.tscn" id="5_u5gh3"]
 
-[node name="Level1" type="Node2D" node_paths=PackedStringArray("door_position_node")]
+[node name="Level3" type="Node2D" node_paths=PackedStringArray("door_position_node")]
 z_index = 2
-script = ExtResource("1_lcst0")
+script = ExtResource("1_mwntf")
 door_position_node = NodePath("Exit")
-following_level_path = "res://level_2.tscn"
+following_level_path = "res://level_4.tscn"
 
 [node name="Ground" type="StaticBody2D" parent="."]
 position = Vector2(0, 192)
@@ -70,17 +71,23 @@ polygon = PackedVector2Array(0, -328, 384, -328, 384, -304, 0, -304)
 position = Vector2(0, -328)
 polygon = PackedVector2Array(0, 0, 384, 0, 384, 24, 0, 24)
 
-[node name="Platform" parent="." instance=ExtResource("1_npd33")]
+[node name="Platform" parent="." instance=ExtResource("2_ittt8")]
 position = Vector2(2.27374e-13, 160)
 
-[node name="Platform2" parent="." instance=ExtResource("1_npd33")]
+[node name="Platform2" parent="." instance=ExtResource("2_ittt8")]
 position = Vector2(288, 160)
 
-[node name="CharacterBody2D" parent="." instance=ExtResource("3_olerr")]
-position = Vector2(8, 160)
+[node name="Platform3" parent="." instance=ExtResource("2_ittt8")]
+position = Vector2(144, 160)
 
 [node name="Start" type="Node2D" parent="."]
 position = Vector2(192, 184)
 
+[node name="Chest" parent="." instance=ExtResource("4_jsgqq")]
+position = Vector2(336, 160)
+
 [node name="Exit" type="Node2D" parent="."]
-position = Vector2(16, 192)
+position = Vector2(192, 192)
+
+[node name="RigidBody2D" parent="." instance=ExtResource("5_u5gh3")]
+position = Vector2(187, 56)

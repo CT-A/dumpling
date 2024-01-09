@@ -1,0 +1,160 @@
+[gd_scene load_steps=6 format=3 uid="uid://chy8dyla5i7pf"]
+
+[ext_resource type="Script" path="res://defeat_enemies_level.gd" id="1_cqdqb"]
+[ext_resource type="PackedScene" uid="uid://f5ramw81ecs2" path="res://platform.tscn" id="2_t3vd5"]
+[ext_resource type="PackedScene" uid="uid://j5rh8wmpxcnn" path="res://chest.tscn" id="3_12ved"]
+[ext_resource type="PackedScene" uid="uid://ds75bxj112t4x" path="res://air_enemy.tscn" id="4_jveik"]
+[ext_resource type="PackedScene" uid="uid://dwfoovktlk7ub" path="res://ground_enemy.tscn" id="5_5ogkm"]
+
+[node name="Level3" type="Node2D" node_paths=PackedStringArray("door_position_node")]
+z_index = 2
+script = ExtResource("1_cqdqb")
+door_position_node = NodePath("Exit")
+following_level_path = "res://level_4.tscn"
+bounds = Rect2(0, -216, 384, 216)
+
+[node name="Ground" type="StaticBody2D" parent="."]
+position = Vector2(0, 192)
+collision_layer = 2
+collision_mask = 7
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ground"]
+position = Vector2(0, 328)
+polygon = PackedVector2Array(0, -328, 384, -328, 384, -304, 0, -304)
+
+[node name="Polygon2D" type="Polygon2D" parent="Ground/CollisionPolygon2D"]
+position = Vector2(0, -328)
+polygon = PackedVector2Array(0, 0, 384, 0, 384, 24, 0, 24)
+
+[node name="Ceiling" type="StaticBody2D" parent="."]
+position = Vector2(0, -264)
+collision_layer = 2
+collision_mask = 7
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ceiling"]
+position = Vector2(0, 328)
+polygon = PackedVector2Array(0, -328, 384, -328, 384, -304, 0, -304)
+
+[node name="Polygon2D" type="Polygon2D" parent="Ceiling/CollisionPolygon2D"]
+position = Vector2(0, -328)
+polygon = PackedVector2Array(0, 0, 384, 0, 384, 24, 0, 24)
+
+[node name="LeftWall" type="StaticBody2D" parent="."]
+position = Vector2(0, -24)
+rotation = 1.5708
+scale = Vector2(0.625, 1)
+collision_layer = 18
+collision_mask = 7
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LeftWall"]
+position = Vector2(0, 328)
+polygon = PackedVector2Array(0, -328, 384, -328, 384, -304, 0, -304)
+
+[node name="Polygon2D" type="Polygon2D" parent="LeftWall/CollisionPolygon2D"]
+position = Vector2(0, -328)
+polygon = PackedVector2Array(0, 0, 384, 0, 384, 24, 0, 24)
+
+[node name="LeftWall2" type="StaticBody2D" parent="."]
+position = Vector2(0, -264)
+rotation = 1.5708
+scale = Vector2(0.625, 1)
+collision_layer = 18
+collision_mask = 7
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LeftWall2"]
+position = Vector2(0, 328)
+polygon = PackedVector2Array(0, -328, 384, -328, 384, -304, 0, -304)
+
+[node name="Polygon2D" type="Polygon2D" parent="LeftWall2/CollisionPolygon2D"]
+position = Vector2(0, -328)
+polygon = PackedVector2Array(0, 0, 384, 0, 384, 24, 0, 24)
+
+[node name="RightWall" type="StaticBody2D" parent="."]
+position = Vector2(408, -24)
+rotation = 1.5708
+scale = Vector2(0.625, 1)
+collision_layer = 18
+collision_mask = 7
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="RightWall"]
+position = Vector2(0, 328)
+polygon = PackedVector2Array(0, -328, 384, -328, 384, -304, 0, -304)
+
+[node name="Polygon2D" type="Polygon2D" parent="RightWall/CollisionPolygon2D"]
+position = Vector2(0, -328)
+polygon = PackedVector2Array(0, 0, 384, 0, 384, 24, 0, 24)
+
+[node name="RightWall2" type="StaticBody2D" parent="."]
+position = Vector2(408, -264)
+rotation = 1.5708
+scale = Vector2(0.625, 1)
+collision_layer = 18
+collision_mask = 7
+metadata/_edit_group_ = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="RightWall2"]
+position = Vector2(0, 328)
+polygon = PackedVector2Array(0, -328, 384, -328, 384, -304, 0, -304)
+
+[node name="Polygon2D" type="Polygon2D" parent="RightWall2/CollisionPolygon2D"]
+position = Vector2(0, -328)
+polygon = PackedVector2Array(0, 0, 384, 0, 384, 24, 0, 24)
+
+[node name="Platform" parent="." instance=ExtResource("2_t3vd5")]
+position = Vector2(2.27374e-13, 160)
+
+[node name="Platform2" parent="." instance=ExtResource("2_t3vd5")]
+position = Vector2(288, 160)
+
+[node name="Platform3" parent="." instance=ExtResource("2_t3vd5")]
+position = Vector2(144, 160)
+
+[node name="Platform4" parent="." instance=ExtResource("2_t3vd5")]
+position = Vector2(216, -8)
+
+[node name="Platform5" parent="." instance=ExtResource("2_t3vd5")]
+position = Vector2(288, 112)
+
+[node name="Platform13" parent="." instance=ExtResource("2_t3vd5")]
+position = Vector2(0, 112)
+
+[node name="Platform12" parent="." instance=ExtResource("2_t3vd5")]
+position = Vector2(288, -32)
+
+[node name="Platform6" parent="." instance=ExtResource("2_t3vd5")]
+position = Vector2(144, 64)
+
+[node name="Platform7" parent="." instance=ExtResource("2_t3vd5")]
+position = Vector2(72, 136)
+
+[node name="Platform8" parent="." instance=ExtResource("2_t3vd5")]
+position = Vector2(216, 136)
+
+[node name="Platform9" parent="." instance=ExtResource("2_t3vd5")]
+position = Vector2(144, 16)
+
+[node name="Platform11" parent="." instance=ExtResource("2_t3vd5")]
+position = Vector2(72, 40)
+
+[node name="Platform10" parent="." instance=ExtResource("2_t3vd5")]
+position = Vector2(216, 88)
+
+[node name="Start" type="Node2D" parent="."]
+position = Vector2(192, 184)
+
+[node name="Chest" parent="." instance=ExtResource("3_12ved")]
+position = Vector2(45, 112)
+
+[node name="Exit" type="Node2D" parent="."]
+position = Vector2(368, -32)
+
+[node name="RigidBody2D" parent="." instance=ExtResource("4_jveik")]
+position = Vector2(368, -84)
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("5_5ogkm")]
+position = Vector2(75, 40)

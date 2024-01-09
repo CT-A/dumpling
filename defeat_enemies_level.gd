@@ -4,6 +4,7 @@ var enemies = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	setup_enemies.call_deferred()
+	super()
 
 # Count the enemies and connect to their tree exit
 func setup_enemies():

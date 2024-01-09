@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cp1b2qbreo70l"]
+[gd_scene load_steps=22 format=3 uid="uid://cp1b2qbreo70l"]
 
 [ext_resource type="Script" path="res://BulletController.gd" id="1_varq8"]
 [ext_resource type="PackedScene" uid="uid://c4p8q1lt6aqwf" path="res://character_body_2d.tscn" id="3_wul7s"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://wmvv6dw8j04w" path="res://ticket.png" id="7_7cseh"]
 [ext_resource type="Texture2D" uid="uid://bdgc6out3wvfa" path="res://swap_arrow.png" id="8_omnuc"]
 [ext_resource type="Script" path="res://PauseManager.gd" id="9_xpsjq"]
+[ext_resource type="Script" path="res://CameraController.gd" id="10_y2vxk"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1pvjd"]
 
@@ -62,6 +63,10 @@ border_width_bottom = 1
 
 [node name="MainScene" type="Node2D"]
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(192, 105)
+script = ExtResource("10_y2vxk")
+
 [node name="Player" parent="." groups=["saveable"] instance=ExtResource("3_wul7s")]
 position = Vector2(128, 192)
 
@@ -74,7 +79,9 @@ script = ExtResource("4_vjb34")
 [node name="LevelManager" type="Node2D" parent="." groups=["saveable"]]
 script = ExtResource("4_dwp5s")
 
-[node name="HUD" type="Panel" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Panel" parent="CanvasLayer"]
 offset_left = 2.0
 offset_top = 2.0
 offset_right = 86.0
@@ -82,7 +89,7 @@ offset_bottom = 52.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_1pvjd")
 script = ExtResource("5_p5r31")
 
-[node name="HP_Box" type="Panel" parent="HUD"]
+[node name="HP_Box" type="Panel" parent="CanvasLayer/HUD"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.988095
@@ -92,7 +99,7 @@ grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_uu6l3")
 metadata/_edit_use_anchors_ = true
 
-[node name="HP_Bar" type="ProgressBar" parent="HUD/HP_Box"]
+[node name="HP_Bar" type="ProgressBar" parent="CanvasLayer/HUD/HP_Box"]
 layout_mode = 0
 offset_left = 1.0
 offset_top = 1.0
@@ -103,7 +110,7 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_byewg")
 value = 50.0
 show_percentage = false
 
-[node name="HP_Text" type="Label" parent="HUD/HP_Box"]
+[node name="HP_Text" type="Label" parent="CanvasLayer/HUD/HP_Box"]
 layout_mode = 0
 offset_left = 3.0
 offset_top = 2.0
@@ -112,7 +119,7 @@ offset_bottom = 11.0
 text = "HP:"
 label_settings = SubResource("LabelSettings_q675d")
 
-[node name="Gun_Box" type="Panel" parent="HUD"]
+[node name="Gun_Box" type="Panel" parent="CanvasLayer/HUD"]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.16
@@ -124,7 +131,7 @@ grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ot1dm")
 metadata/_edit_use_anchors_ = true
 
-[node name="Ticket_Icon" type="TextureRect" parent="HUD/Gun_Box"]
+[node name="Ticket_Icon" type="TextureRect" parent="CanvasLayer/HUD/Gun_Box"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.823529
@@ -135,7 +142,7 @@ rotation = 1.5708
 texture = ExtResource("7_7cseh")
 metadata/_edit_use_anchors_ = true
 
-[node name="Tickets" type="Label" parent="HUD/Gun_Box/Ticket_Icon"]
+[node name="Tickets" type="Label" parent="CanvasLayer/HUD/Gun_Box/Ticket_Icon"]
 layout_mode = 0
 offset_left = 2.0
 offset_top = -2.0
@@ -145,7 +152,7 @@ rotation = -1.5708
 text = "X0"
 label_settings = SubResource("LabelSettings_e8r3a")
 
-[node name="Current_Gun" type="TextureRect" parent="HUD/Gun_Box"]
+[node name="Current_Gun" type="TextureRect" parent="CanvasLayer/HUD/Gun_Box"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0235294
@@ -156,7 +163,7 @@ expand_mode = 4
 stretch_mode = 5
 metadata/_edit_use_anchors_ = true
 
-[node name="Secondary_Gun" type="TextureRect" parent="HUD/Gun_Box"]
+[node name="Secondary_Gun" type="TextureRect" parent="CanvasLayer/HUD/Gun_Box"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.270588
@@ -167,7 +174,7 @@ expand_mode = 5
 stretch_mode = 5
 metadata/_edit_use_anchors_ = true
 
-[node name="Swap_Arrow" type="TextureRect" parent="HUD/Gun_Box"]
+[node name="Swap_Arrow" type="TextureRect" parent="CanvasLayer/HUD/Gun_Box"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.270588
@@ -177,7 +184,7 @@ anchor_bottom = 1.0
 texture = ExtResource("8_omnuc")
 metadata/_edit_use_anchors_ = true
 
-[node name="XP" type="ProgressBar" parent="HUD/Gun_Box"]
+[node name="XP" type="ProgressBar" parent="CanvasLayer/HUD/Gun_Box"]
 layout_mode = 0
 offset_left = 1.0
 offset_top = 1.0
@@ -189,7 +196,7 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_vb6xf")
 value = 50.0
 show_percentage = false
 
-[node name="LVL" type="Label" parent="HUD/Gun_Box"]
+[node name="LVL" type="Label" parent="CanvasLayer/HUD/Gun_Box"]
 layout_mode = 0
 offset_left = 3.0
 offset_top = 2.0
@@ -198,7 +205,7 @@ offset_bottom = 11.0
 text = "LVL.1"
 label_settings = SubResource("LabelSettings_q675d")
 
-[node name="Current_Gun_Outline" type="Panel" parent="HUD/Gun_Box"]
+[node name="Current_Gun_Outline" type="Panel" parent="CanvasLayer/HUD/Gun_Box"]
 layout_mode = 0
 offset_left = 1.0
 offset_top = 8.0
@@ -206,7 +213,7 @@ offset_right = 23.0
 offset_bottom = 30.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_ot7e5")
 
-[node name="Secondary_Gun_Outline2" type="Panel" parent="HUD/Gun_Box"]
+[node name="Secondary_Gun_Outline2" type="Panel" parent="CanvasLayer/HUD/Gun_Box"]
 layout_mode = 0
 offset_left = 22.0
 offset_top = 8.0
@@ -214,7 +221,7 @@ offset_right = 34.0
 offset_bottom = 20.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_ot7e5")
 
-[node name="PauseManager" type="Control" parent="." node_paths=PackedStringArray("menu", "died_screen", "return_to_main_button", "died_return_to_main_button", "resume_button", "save_button", "player")]
+[node name="PauseManager" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("menu", "died_screen", "return_to_main_button", "died_return_to_main_button", "resume_button", "save_button", "player")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 384.0
@@ -226,15 +233,15 @@ return_to_main_button = NodePath("PauseScreen/Buttons/BackToMain")
 died_return_to_main_button = NodePath("Died_Screen/Return_To_Menu")
 resume_button = NodePath("PauseScreen/Buttons/Unpause")
 save_button = NodePath("PauseScreen/Buttons/Save")
-player = NodePath("../Player")
+player = NodePath("../../Player")
 
-[node name="PauseScreen" type="Panel" parent="PauseManager"]
+[node name="PauseScreen" type="Panel" parent="CanvasLayer/PauseManager"]
 z_index = 4
 layout_mode = 0
 offset_right = 384.0
 offset_bottom = 216.0
 
-[node name="Buttons" type="Panel" parent="PauseManager/PauseScreen"]
+[node name="Buttons" type="Panel" parent="CanvasLayer/PauseManager/PauseScreen"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -249,7 +256,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_jfep0")
 
-[node name="Unpause" type="Button" parent="PauseManager/PauseScreen/Buttons"]
+[node name="Unpause" type="Button" parent="CanvasLayer/PauseManager/PauseScreen/Buttons"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -264,7 +271,7 @@ theme_override_fonts/font = ExtResource("6_q6u6u")
 theme_override_font_sizes/font_size = 10
 text = "RESUME"
 
-[node name="Save" type="Button" parent="PauseManager/PauseScreen/Buttons"]
+[node name="Save" type="Button" parent="CanvasLayer/PauseManager/PauseScreen/Buttons"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -283,7 +290,7 @@ theme_override_fonts/font = ExtResource("6_q6u6u")
 theme_override_font_sizes/font_size = 10
 text = "SAVE"
 
-[node name="BackToMain" type="Button" parent="PauseManager/PauseScreen/Buttons"]
+[node name="BackToMain" type="Button" parent="CanvasLayer/PauseManager/PauseScreen/Buttons"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -301,14 +308,14 @@ theme_override_fonts/font = ExtResource("6_q6u6u")
 theme_override_font_sizes/font_size = 10
 text = "MAIN MENU"
 
-[node name="Died_Screen" type="Panel" parent="PauseManager"]
+[node name="Died_Screen" type="Panel" parent="CanvasLayer/PauseManager"]
 visible = false
 z_index = 4
 layout_mode = 0
 offset_right = 384.0
 offset_bottom = 216.0
 
-[node name="Return_To_Menu" type="Button" parent="PauseManager/Died_Screen"]
+[node name="Return_To_Menu" type="Button" parent="CanvasLayer/PauseManager/Died_Screen"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

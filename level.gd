@@ -15,6 +15,14 @@ var door_path = "res://door.tscn"
 var doors_shown = true
 # Reference to the player
 @onready var player = get_tree().root.get_node("GameManager/MainScene/Player")
+# A rectangle describing the bounds the camera will be confined to (top left corner to bottom right)
+@export var bounds = Rect2(Vector2(0,0),Vector2(384,216))
+# A reference to the camera
+@onready var cam = get_tree().root.get_node("GameManager/MainScene/Camera2D")
+
+func _ready():
+	cam.update_bounds(bounds)
+	cam.reset_pos()
 
 # Function for when the condition is fulfilled
 func level_complete():

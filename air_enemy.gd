@@ -11,7 +11,7 @@ func _ready():
 	shoot_cd = 0
 	ENEMY_TYPE_PATH = "res://air_enemy.tscn"
 	target_height = global_position.y
-	TICKET_DROP_CHANCE = 5
+	TICKET_DROP_CHANCE = 100
 	SPEED = 50
 	CHASE_MARGIN = 200
 	# Get your shoot signal added to the bullet controller

@@ -42,13 +42,14 @@ func get_save():
 	return save
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	# Check if off-screen. If so, delete.
-	# Get the viewport's dimensions
-	var screen_rect = get_viewport_rect()
-	# Check if the bullet is off-screen
-	if position.x < screen_rect.position.x or position.x > screen_rect.position.x + screen_rect.size.x + margin or position.y < screen_rect.position.y or position.y > screen_rect.position.y + screen_rect.size.y + margin:
-		# The bullet is off-screen
-		queue_free()
+	pass
+	## Check if off-screen. If so, delete.
+	## Get the viewport's dimensions
+	#var screen_rect = get_viewport_rect()
+	## Check if the bullet is off-screen
+	#if position.x < screen_rect.position.x or position.x > screen_rect.position.x + screen_rect.size.x + margin or position.y < screen_rect.position.y or position.y > screen_rect.position.y + screen_rect.size.y + margin:
+	#	# The bullet is off-screen
+	#	queue_free()
 
 # Make sure we know the true velocity before hitting something
 func _physics_process(delta):

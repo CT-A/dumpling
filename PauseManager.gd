@@ -21,7 +21,7 @@ func _ready():
 	died_return_to_main_button = $Died_Screen/Return_To_Menu
 	resume_button = $PauseScreen/Buttons/Unpause
 	save_button = $PauseScreen/Buttons/Save
-	player = $"../Player"
+	player = get_tree().root.get_node("GameManager/MainScene/Player")
 	remove_child(menu)
 	remove_child(died_screen)
 	process_mode = Node.PROCESS_MODE_ALWAYS

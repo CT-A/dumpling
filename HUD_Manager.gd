@@ -2,7 +2,7 @@ extends Panel
 @onready var hp_bar = get_node("HP_Box/HP_Bar")
 @onready var current_gun = get_node("Gun_Box/Current_Gun")
 @onready var secondary_gun = get_node("Gun_Box/Secondary_Gun")
-@onready var player = get_node("../Player")
+@onready var player = get_tree().root.get_node("GameManager/MainScene/Player")
 @onready var lvl_text = get_node("Gun_Box/LVL")
 @onready var tickets_text = get_node("Gun_Box/Ticket_Icon/Tickets")
 @onready var xp = get_node("Gun_Box/XP")
