@@ -93,8 +93,7 @@ func load_save(save):
 	load_guns(save.gun_list)
 	var new_active_gun = load(save.gun.path).instantiate() if save.gun else null
 	if new_active_gun:
-		await pickup_gun(new_active_gun)
-		new_active_gun.load_save(save.gun)
+		await pickup_gun(new_active_gun,save.gun)
 
 # Fill the gun list with new guns matching the saved guns
 func load_guns(gl):
@@ -102,8 +101,7 @@ func load_guns(gl):
 	for g in gl:
 		if g:
 			var new_gun = load(g.path).instantiate()
-			await pickup_gun(new_gun)
-			new_gun.load_save(g)
+			await pickup_gun(new_gun,g)
 
 # Return texture of active gun
 func get_gun_texture():
@@ -147,13 +145,64 @@ func select_interactable():
 	else:
 		selected_interactable = null
 
-# Pick up gun
-func pickup_gun(g):
-	add_child(g)
-	guns.append(g)
-	if guns.size() > max_guns:
-		drop(active_gun)
-	swapGun(g)
+# Returns a list of guns that share a type and rarity with the given gun
+func fusible_guns(gun):
+	var to_fuse = []
+	if guns.size() > 1 and gun.rarity < 4:
+		var rartype = gun._path
+		to_fuse = []
+		for g in guns:
+			if (g._path == rartype):
+				to_fuse.append(g)
+	return to_fuse
+	
+
+# Removes the given guns from 'guns' and adds a new gun as the active gun
+#  The new gun is one rarity tier higher and has the lvl and xp of the highest used to fuse
+func fuse_guns(to_fuse):
+	print("fusing ", to_fuse)
+	var xp = 0
+	var level = 0
+	for g in to_fuse:
+		if g.xp > xp:
+			xp = g.xp
+		if g.lvl > level:
+			level = g.lvl
+	var rar = to_fuse[0].rarity
+	var new_path = get_higher_rarity_path(to_fuse[0]._path,rar)
+	print("fused into ", new_path)
+	var save = {
+		"path" : new_path,
+		"cd" : 0,
+		"exp" : xp,
+		"level" : level,
+		"rar" : rar + 1
+	}
+	to_fuse.erase(active_gun)
+	for e in to_fuse:
+		guns.erase(e)
+	active_gun.load_save(save)
+	await drop(active_gun)
+	
+
+# Takes a path to a gun and it's rarity and returns the path to a gun of the same type that is one rarity higher
+func get_higher_rarity_path(p,cur_rar):
+	var new_rar = cur_rar + 1
+	var ret = p.replace(str(cur_rar),str(new_rar))
+	return ret
+
+# Pick up gun (and load its save)
+func pickup_gun(g,s):
+	var fusible = fusible_guns(g)
+	if fusible.size() == 2:
+		fuse_guns(fusible)
+	else:
+		add_child(g)
+		g.load_save(s)
+		guns.append(g)
+		if guns.size() > max_guns:
+			drop(active_gun)
+		swapGun(g)
 
 # Drop gun
 func drop(g):
@@ -166,7 +215,7 @@ func drop(g):
 	guns.erase(g)
 	var dropPos = position + g.offset
 	dropPos.y = dropPos.y - 5
-	var dropInfo = [dropPos,g.scene_file_path,g.rarity,g.xp,g.lvl]
+	var dropInfo = [dropPos,g._path,g.rarity,g.xp,g.lvl]
 	dropped_gun.emit(dropInfo)
 
 # Utility function to do hitstop by slowing time temporarily
@@ -300,7 +349,7 @@ func _physics_process(delta):
 	recoil.x = lerp(recoil.x,0.0,0.3)
 	recoil.y = lerp(recoil.y,0.0,0.3)
 	recoil.y = clamp(recoil.y,1*JUMP_VELOCITY,0)
-	velocity.y = clamp(velocity.y + recoil.y,1*JUMP_VELOCITY,-1*JUMP_VELOCITY)
+	velocity.y = clamp(velocity.y + recoil.y,1*JUMP_VELOCITY,-10*JUMP_VELOCITY)
 	velocity.x = recoil.x + velocity.x
 	knockback.x = lerp(knockback.x,0.0,0.3)
 	knockback.y = lerp(knockback.y,0.0,0.3)

@@ -1,11 +1,14 @@
 extends Interactable
 @export var gun_path = "res://gun.tscn"
 var gun = load(gun_path).instantiate()
+var gun_save = {}
 var loaded = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if !loaded:
 		gun = load(gun_path).instantiate()
+		gun._ready()
+		gun_save = gun.get_save()
 	$Area2D/Sprite2D.texture = gun.get_node("Area2D/Sprite2D").texture
 	
 	super()
@@ -31,24 +34,27 @@ func load_save(s):
 	default_rarity = int(s["rar"])
 	_update_gun(s)
 
-# Load in a new gun from the specified save
+# Load in a new gun from the specified save (player will handle lvl and xp)
 func _update_gun(save):
-	var xp = save["xp"]
-	var lvl = save["lvl"]
+	
 	gun_path = save["gun_path"]
 	default_rarity = int(save["rar"])
+	gun_save = {
+		"path" : gun_path,
+		"cd" : 0,
+		"exp" : save.xp,
+		"level" : save.lvl,
+		"rar" : save.rar
+	}
 	set_rarity(default_rarity)
 	gun = load(gun_path).instantiate()
+	# Set the pickup sprite to the gun sprite
 	$Area2D/Sprite2D.texture = gun.get_node("Area2D/Sprite2D").texture
-	gun.lvl = 1
-	while gun.lvl < lvl:
-		gun.level_up()
-	gun.xp = xp
 	loaded = true
 
 func interact():
 	# Player is already determined in Interactable
-	player.pickup_gun(gun)
+	player.pickup_gun(gun, gun_save)
 	queue_free()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

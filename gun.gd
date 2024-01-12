@@ -55,10 +55,6 @@ func _ready():
 	else:
 		flipped = false
 	dmg_per_lvl = damage
-# This is probably unneccessary unless I want to be able to do Gun.new(save)
-func _init(save = null):
-	if save:
-		load_save(save)
 
 func reset_cd_bar():
 	cd_bar.queue_free()
@@ -82,6 +78,7 @@ func load_save(s):
 		level_up()
 	xp = s.get("exp")
 	cooldown = s.get("cd")
+	rarity = s.get("rar")
 
 # Tell Player to recoil by this amount
 func request_recoil(amt):
