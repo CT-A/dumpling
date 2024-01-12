@@ -145,13 +145,15 @@ func select_interactable():
 	else:
 		selected_interactable = null
 
-# Returns a list of guns that share a type and rarity with the given gun
-func fusible_guns(gun):
+# Returns a list of guns that share a type and rarity with the given gunsave
+func fusible_guns(s):
 	var to_fuse = []
-	if guns.size() > 1 and gun.rarity < 4:
-		var rartype = gun._path
+	if guns.size() > 1 and s.rar < 4:
+		var rartype = s.path
+		print("rartype: ",rartype)
 		to_fuse = []
 		for g in guns:
+			print(g._path)
 			if (g._path == rartype):
 				to_fuse.append(g)
 	return to_fuse
@@ -193,7 +195,8 @@ func get_higher_rarity_path(p,cur_rar):
 
 # Pick up gun (and load its save)
 func pickup_gun(g,s):
-	var fusible = fusible_guns(g)
+	var fusible = fusible_guns(s)
+	print(fusible)
 	if fusible.size() == 2:
 		fuse_guns(fusible)
 	else:
