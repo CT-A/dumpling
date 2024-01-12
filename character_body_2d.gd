@@ -150,7 +150,6 @@ func fusible_guns(s):
 	var to_fuse = []
 	if guns.size() > 1 and s.rar < 4:
 		var rartype = s.path
-		print("rartype: ",rartype)
 		to_fuse = []
 		for g in guns:
 			print(g._path)
@@ -162,7 +161,6 @@ func fusible_guns(s):
 # Removes the given guns from 'guns' and adds a new gun as the active gun
 #  The new gun is one rarity tier higher and has the lvl and xp of the highest used to fuse
 func fuse_guns(to_fuse):
-	print("fusing ", to_fuse)
 	var xp = 0
 	var level = 0
 	for g in to_fuse:
@@ -172,7 +170,6 @@ func fuse_guns(to_fuse):
 			level = g.lvl
 	var rar = to_fuse[0].rarity
 	var new_path = get_higher_rarity_path(to_fuse[0]._path,rar)
-	print("fused into ", new_path)
 	var save = {
 		"path" : new_path,
 		"cd" : 0,

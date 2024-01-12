@@ -106,12 +106,10 @@ func _on_bullet_hit(_objectHit):
 				_objectHit.knock_after_delay(knockback_dir,damage*knock_delay)
 			else:
 				pass#print("Object with bitmask ",hit_layer, " missing knock_after_delay()")
-			if _objectHit.has_method("_hurt"):
+			if _objectHit.has_method("_hurt") && !animTree["parameters/conditions/bullet_hit"]:
 				# Keep going if the enemy was already dead, or if we have more penetrative power
 				continue_flying = _objectHit._hurt(damage) || continue_flying
 				penetration = penetration-1
-			else:
-				print("Object on layer 4 missing _hurt()!")
 		else:
 			continue_flying = false
 	if !continue_flying:
